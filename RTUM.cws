@@ -1,0 +1,216 @@
+[Workspace Header]
+Version = 2000
+Pathname = "/c/Tesis Maqui/CVI RTU/RTUM.cws"
+CVI Dir = "/c/program files (x86)/national instruments/cvi2020"
+CVI Shared Dir = "/C/Program Files (x86)/National Instruments/Shared/CVI"
+CVI Pub Local Dir = "/C/ProgramData/National Instruments/CVI2020"
+CVI Pub Global Dir = "/C/ProgramData/National Instruments/CVI"
+IVI Standard Root Dir = "/C/Program Files (x86)/IVI Foundation/IVI"
+IVI Standard Root 64-bit Dir = "/C/Program Files/IVI Foundation/IVI"
+VXIplug&play Framework Dir = "/C/Program Files (x86)/IVI Foundation/VISA/winnt"
+VXIplug&play Framework 64-bit Dir = "/C/Program Files/IVI Foundation/VISA/win64"
+Number of Projects = 1
+Active Project = 1
+Project 0001 = "RTUM.prj"
+Drag Bar Left = 279
+Window Top = 31
+Window Left = 26
+Window Bottom = 749
+Window Right = 1289
+Maximized = True
+Maximized Children = True
+Max32 Number Of Errors = 20
+Track Include File Dependencies = True
+Prompt For Missing Includes = True
+Stop On First Error File = False
+Bring Up Err Win At Start = True
+Bring Up Err Win For Errors = False
+Save Changes Before Running = "Always"
+Save Changes Before Compiling = "Always"
+Hide Windows = False
+Break At First Statement = False
+Sort Type = "File Name"
+Number of Opened Files = 7
+Window Confinement Region Enabled = True
+MainColumnWidth = 262
+FileDateColumnWidth = 70
+FileSizeColumnWidth = 70
+
+[Project Header 0001]
+Version = 2000
+Don't Update DistKit = False
+Platform Code = 4
+Build Configuration = "Debug"
+Warn User If Debugging Release = 1
+Batch Build Release = False
+Batch Build Debug = False
+
+[File 0001]
+Path = "/c/Tesis Maqui/TesisM CVI/MICOM.c"
+File Type = "CSource"
+Disk Date = 3842604492
+In Projects = ""
+Source Window State = "1,1639,1640,1639,4,30,4,0,3,0,0,0,0,0,0,0,1620,0,1640,30,349,683,1,0,"
+Window Top = 157
+Window Left = 74
+Window Z-Order = 4
+
+[File 0002]
+Path = "/c/Tesis Maqui/CVI RTU/RTUM.uir"
+File Type = "User Interface Resource"
+Disk Date = 3843321731
+In Projects = "1,"
+Window Top = 33
+Window Left = 10
+Window Height = 401
+Window Width = 602
+Window Z-Order = 2
+
+[File 0003]
+Path = "/c/Tesis Maqui/CVI RTU/RTUM.c"
+File Type = "CSource"
+Disk Date = 3843321731
+In Projects = "1,"
+Source Window State = "1,38,38,38,4,4,4,0,0,0,0,0,0,0,0,0,25,0,38,4,371,602,1,0,"
+Window Top = 95
+Window Left = 42
+Window Z-Order = 1
+
+[File 0004]
+Path = "/c/Tesis Maqui/TesisM CVI/MICOM.uir"
+File Type = "User Interface Resource"
+Disk Date = 3842602778
+In Projects = ""
+Window Top = 126
+Window Left = 58
+Window Height = 371
+Window Width = 602
+Window Z-Order = 5
+
+[File 0005]
+Path = "/c/Tesis Maqui/CVI RTU/RTUM.h"
+File Type = "Include"
+Disk Date = 3843321731
+In Projects = "1,"
+Source Window State = "1,18,18,18,9,26,9,0,3,0,0,0,0,0,0,0,15,0,18,26,371,602,1,0,"
+Window Top = 95
+Window Left = 42
+Window Z-Order = 3
+
+[File 0006]
+Path = "/c/Tesis Maqui/CVI RTU/ModbusFramework.c"
+File Type = "CSource"
+Disk Date = 3842689011
+In Projects = "1,"
+Source Window State = "1,518,518,518,0,66,0,0,3,0,0,0,0,0,0,0,486,0,518,66,371,602,1,0,"
+Window Top = 126
+Window Left = 58
+Window Z-Order = 7
+
+[File 0007]
+Path = "/c/Tesis Maqui/CVI RTU/ModbusFramework.h"
+File Type = "Include"
+Disk Date = 3842689011
+In Projects = "1,"
+Source Window State = "1,21,21,21,83,83,83,0,0,0,0,0,0,0,0,0,0,0,21,83,371,602,1,0,"
+Window Top = 95
+Window Left = 42
+Window Z-Order = 6
+
+[Tab Order]
+Tab 0001 = "/c/Tesis Maqui/CVI RTU/RTUM.uir"
+Tab 0002 = "/c/Tesis Maqui/CVI RTU/RTUM.c"
+Tab 0003 = "/c/Tesis Maqui/TesisM CVI/MICOM.uir"
+Tab 0004 = "/c/Tesis Maqui/TesisM CVI/MICOM.c"
+Tab 0005 = "/c/Tesis Maqui/CVI RTU/ModbusFramework.h"
+Tab 0006 = "/c/Tesis Maqui/CVI RTU/ModbusFramework.c"
+Tab 0007 = "/c/Tesis Maqui/CVI RTU/RTUM.h"
+
+[Default Build Config 0001 Debug]
+Generate Browse Info = True
+Enable Uninitialized Locals Runtime Warning = True
+Batch Build = False
+Profile = "Disabled"
+Debugging Level = "Standard"
+Execution Trace = "Disabled"
+Command Line Args = ""
+Working Directory = ""
+Environment Options = ""
+External Process Path = ""
+
+[Default Build Config 0001 Release]
+Generate Browse Info = True
+Enable Uninitialized Locals Runtime Warning = True
+Batch Build = False
+Profile = "Disabled"
+Debugging Level = "Standard"
+Execution Trace = "Disabled"
+Command Line Args = ""
+Working Directory = ""
+Environment Options = ""
+External Process Path = ""
+
+[Default Build Config 0001 Debug64]
+Generate Browse Info = True
+Enable Uninitialized Locals Runtime Warning = True
+Batch Build = False
+Profile = "Disabled"
+Debugging Level = "Standard"
+Execution Trace = "Disabled"
+Command Line Args = ""
+Working Directory = ""
+Environment Options = ""
+External Process Path = ""
+
+[Default Build Config 0001 Release64]
+Generate Browse Info = True
+Enable Uninitialized Locals Runtime Warning = True
+Batch Build = False
+Profile = "Disabled"
+Debugging Level = "Standard"
+Execution Trace = "Disabled"
+Command Line Args = ""
+Working Directory = ""
+Environment Options = ""
+External Process Path = ""
+
+[Build Dependencies 0001]
+Number of Dependencies = 0
+
+[Build Options 0001]
+Generate Browse Info = True
+Enable Uninitialized Locals Runtime Warning = True
+Execution Trace = "Disabled"
+Profile = "Disabled"
+Debugging Level = "Standard"
+Break On Library Errors = True
+Break On First Chance Exceptions = False
+
+[Execution Target 0001]
+Execution Target Address = "Local desktop computer"
+Execution Target Port = 0
+Execution Target Type = 0
+
+[SCC Options 0001]
+Use global settings = True
+SCC Provider = ""
+SCC Project = ""
+Local Path = ""
+Auxiliary Path = ""
+Perform Same Action For .h File As For .uir File = "Ask"
+Perform Same Action For .cds File As For .prj File = "Ask"
+Username = ""
+Comment = ""
+Use Default Username = False
+Use Default Comment = False
+Suppress CVI Error Messages = False
+Always show confirmation dialog = True
+
+[DLL Debugging Support 0001]
+External Process Path = ""
+
+[Command Line Args 0001]
+Command Line Args = ""
+Working Directory = ""
+Environment Options = ""
+

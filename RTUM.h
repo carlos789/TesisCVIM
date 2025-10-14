@@ -1,0 +1,80 @@
+/**************************************************************************/
+/* LabWindows/CVI User Interface Resource (UIR) Include File              */
+/*                                                                        */
+/* WARNING: Do not add to, delete from, or otherwise modify the contents  */
+/*          of this include file.                                         */
+/**************************************************************************/
+
+#include <userint.h>
+
+#ifdef __cplusplus
+    extern "C" {
+#endif
+
+     /* Panels and Controls: */
+
+#define  Principal                        1
+#define  Principal_COMMANDBUTTON_1        2       /* control type: command, callback function: SalirF */
+#define  Principal_PICTURE_2              3       /* control type: picture, callback function: (none) */
+#define  Principal_PICTURE                4       /* control type: picture, callback function: (none) */
+
+#define  Serial                           2
+#define  Serial_COMMANDBUTTON_1           2       /* control type: command, callback function: SalirRS */
+#define  Serial_LED                       3       /* control type: LED, callback function: (none) */
+#define  Serial_STRING                    4       /* control type: string, callback function: (none) */
+#define  Serial_Velocidad                 5       /* control type: slide, callback function: (none) */
+#define  Serial_COMPORT                   6       /* control type: slide, callback function: (none) */
+#define  Serial_WAIT                      7       /* control type: numeric, callback function: (none) */
+#define  Serial_COMMANDBUTTON_2           8       /* control type: command, callback function: AbrirPuerto */
+#define  Serial_COMMANDBUTTON_3           9       /* control type: command, callback function: CerrarPuerto */
+#define  Serial_PICTURE_2                 10      /* control type: picture, callback function: (none) */
+
+#define  VerDatos                         3
+#define  VerDatos_COMMANDBUTTON_1         2       /* control type: command, callback function: SalirDa */
+#define  VerDatos_LED_4                   3       /* control type: LED, callback function: (none) */
+#define  VerDatos_LED_5                   4       /* control type: LED, callback function: (none) */
+#define  VerDatos_COMMANDBUTTON_7         5       /* control type: command, callback function: Cerrar2 */
+#define  VerDatos_COMMANDBUTTON_8         6       /* control type: command, callback function: Abrir2 */
+#define  VerDatos_LED_3                   7       /* control type: LED, callback function: (none) */
+#define  VerDatos_LED_2                   8       /* control type: LED, callback function: (none) */
+#define  VerDatos_COMMANDBUTTON_5         9       /* control type: command, callback function: Cerrar1 */
+#define  VerDatos_COMMANDBUTTON_6         10      /* control type: command, callback function: Abrir1 */
+#define  VerDatos_TEXTMSG                 11      /* control type: textMsg, callback function: (none) */
+#define  VerDatos_NUMERICTHERM_2          12      /* control type: scale, callback function: (none) */
+#define  VerDatos_NUMERICTHERM            13      /* control type: scale, callback function: (none) */
+#define  VerDatos_TEXTMSG_2               14      /* control type: textMsg, callback function: (none) */
+#define  VerDatos_COMMANDBUTTON           15      /* control type: command, callback function: LeerT */
+
+
+     /* Control Arrays: */
+
+          /* (no control arrays in the resource file) */
+
+
+     /* Menu Bars, Menus, and Menu Items: */
+
+#define  MENUBAR                          1
+#define  MENUBAR_MENU1                    2       /* callback function: AbrirSerie */
+#define  MENUBAR_MENU2                    3       /* callback function: DatosM */
+#define  MENUBAR_MENU3                    4
+
+
+     /* Callback Prototypes: */
+
+int  CVICALLBACK Abrir1(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK Abrir2(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK AbrirPuerto(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+void CVICALLBACK AbrirSerie(int menubar, int menuItem, void *callbackData, int panel);
+int  CVICALLBACK Cerrar1(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK Cerrar2(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK CerrarPuerto(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+void CVICALLBACK DatosM(int menubar, int menuItem, void *callbackData, int panel);
+int  CVICALLBACK LeerT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK SalirDa(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK SalirF(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK SalirRS(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+
+
+#ifdef __cplusplus
+    }
+#endif
