@@ -1,0 +1,85 @@
+[Init_CRC]
+Class="Function"
+Prototype="void Init_CRC();"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:27:6"
+
+[Calc_CRC]
+Class="Function"
+Prototype="void Calc_CRC(unsigned char *buf, unsigned char *size);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:57:6"
+
+[Check_CRC]
+Class="Function"
+Prototype="int Check_CRC(unsigned char *buf, unsigned char size);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:91:5"
+
+[conv_dword_to_float]
+Class="Function"
+Prototype="float conv_dword_to_float(unsigned char *buf, float dvd);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:125:7"
+
+[conv_word_to_float]
+Class="Function"
+Prototype="float conv_word_to_float(unsigned char *buf, float dvd);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:143:7"
+
+[conv_float_to_dword]
+Class="Function"
+Prototype="void conv_float_to_dword(float v, int mltp, unsigned char *buf);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:159:6"
+
+[conv_float_to_word]
+Class="Function"
+Prototype="void conv_float_to_word(float v, int mltp, unsigned char *buf);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:186:6"
+
+[conv_short_to_word]
+Class="Function"
+Prototype="void conv_short_to_word(short v, unsigned char *buf);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:210:6"
+
+[conv_word_to_int]
+Class="Function"
+Prototype="int conv_word_to_int(unsigned char *buf);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:231:5"
+
+[conv_dword_to_int]
+Class="Function"
+Prototype="int conv_dword_to_int(unsigned char *buf);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:246:5"
+
+[QueryMem]
+Class="Function"
+Prototype="int QueryMem(char slave, short memAdr, short nRegs, int portNo, double msecWait);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:267:5"
+
+[WriteMem]
+Class="Function"
+Prototype="int WriteMem(char slave, char funcion, short memAdr, short nRegs, char *data, int portNo, double msecWait);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:330:5"
+
+[WriteMemHexa]
+Class="Function"
+Prototype="int WriteMemHexa(char slave, char funcion, short memAdr, short nRegs, unsigned short data, int portNo, double msecWait);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:378:5"
+
+[ReturnMBMessage]
+Class="Function"
+Prototype="void ReturnMBMessage(char *msg, int *bSent);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:435:6"
+
+[ReturnMBAnswer]
+Class="Function"
+Prototype="void ReturnMBAnswer(char *msg, int *bRcvd);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:451:6"
+
+[Funcion05]
+Class="Function"
+Prototype="int Funcion05(char esclavo, short bobina, int puerto, double wait);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:459:5"
+
+[Funcion05A]
+Class="Function"
+Prototype="int Funcion05A(char esclavo, short bobina, int puerto, double wait);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\ModbusFramework.c:519:5"
+

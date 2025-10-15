@@ -15,8 +15,7 @@
 
 #define  Principal                        1
 #define  Principal_COMMANDBUTTON_1        2       /* control type: command, callback function: SalirF */
-#define  Principal_PICTURE_2              3       /* control type: picture, callback function: (none) */
-#define  Principal_PICTURE                4       /* control type: picture, callback function: (none) */
+#define  Principal_PICTURE                3       /* control type: picture, callback function: (none) */
 
 #define  Serial                           2
 #define  Serial_COMMANDBUTTON_1           2       /* control type: command, callback function: SalirRS */
@@ -31,19 +30,20 @@
 
 #define  VerDatos                         3
 #define  VerDatos_COMMANDBUTTON_1         2       /* control type: command, callback function: SalirDa */
-#define  VerDatos_LED_4                   3       /* control type: LED, callback function: (none) */
-#define  VerDatos_LED_5                   4       /* control type: LED, callback function: (none) */
-#define  VerDatos_COMMANDBUTTON_7         5       /* control type: command, callback function: Cerrar2 */
-#define  VerDatos_COMMANDBUTTON_8         6       /* control type: command, callback function: Abrir2 */
-#define  VerDatos_LED_3                   7       /* control type: LED, callback function: (none) */
-#define  VerDatos_LED_2                   8       /* control type: LED, callback function: (none) */
-#define  VerDatos_COMMANDBUTTON_5         9       /* control type: command, callback function: Cerrar1 */
-#define  VerDatos_COMMANDBUTTON_6         10      /* control type: command, callback function: Abrir1 */
-#define  VerDatos_TEXTMSG                 11      /* control type: textMsg, callback function: (none) */
-#define  VerDatos_NUMERICTHERM_2          12      /* control type: scale, callback function: (none) */
-#define  VerDatos_NUMERICTHERM            13      /* control type: scale, callback function: (none) */
-#define  VerDatos_TEXTMSG_2               14      /* control type: textMsg, callback function: (none) */
-#define  VerDatos_COMMANDBUTTON           15      /* control type: command, callback function: LeerT */
+#define  VerDatos_PICTURE_2               3       /* control type: picture, callback function: (none) */
+#define  VerDatos_LED_4                   4       /* control type: LED, callback function: (none) */
+#define  VerDatos_LED_5                   5       /* control type: LED, callback function: (none) */
+#define  VerDatos_COMMANDBUTTON_7         6       /* control type: command, callback function: Cerrar2 */
+#define  VerDatos_COMMANDBUTTON_8         7       /* control type: command, callback function: Abrir2 */
+#define  VerDatos_LED_3                   8       /* control type: LED, callback function: (none) */
+#define  VerDatos_LED_2                   9       /* control type: LED, callback function: (none) */
+#define  VerDatos_COMMANDBUTTON_5         10      /* control type: command, callback function: Cerrar1 */
+#define  VerDatos_COMMANDBUTTON_6         11      /* control type: command, callback function: Abrir1 */
+#define  VerDatos_TEXTMSG                 12      /* control type: textMsg, callback function: (none) */
+#define  VerDatos_NUMERICTHERM_2          13      /* control type: scale, callback function: (none) */
+#define  VerDatos_NUMERICTHERM            14      /* control type: scale, callback function: (none) */
+#define  VerDatos_TEXTMSG_2               15      /* control type: textMsg, callback function: (none) */
+#define  VerDatos_COMMANDBUTTON           16      /* control type: command, callback function: LeerT */
 
 
      /* Control Arrays: */
