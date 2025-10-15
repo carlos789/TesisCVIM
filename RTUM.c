@@ -323,3 +323,9 @@ int CVICALLBACK LeerT (int panel, int control, int event,
 	}
 	return 0;
 }
+
+void CVICALLBACK SalirM (int menuBar, int menuItem, void *callbackData,
+						 int panel)
+{
+	QuitUserInterface(0); 
+}

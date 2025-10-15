@@ -57,6 +57,7 @@
 #define  MENUBAR_MENU1                    2       /* callback function: AbrirSerie */
 #define  MENUBAR_MENU2                    3       /* callback function: DatosM */
 #define  MENUBAR_MENU3                    4
+#define  MENUBAR_Salir                    5       /* callback function: SalirM */
 
 
      /* Callback Prototypes: */
@@ -72,6 +73,7 @@ void CVICALLBACK DatosM(int menubar, int menuItem, void *callbackData, int panel
 int  CVICALLBACK LeerT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK SalirDa(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK SalirF(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+void CVICALLBACK SalirM(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK SalirRS(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 
 

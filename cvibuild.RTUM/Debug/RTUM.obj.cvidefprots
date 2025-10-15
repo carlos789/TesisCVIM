@@ -73,3 +73,8 @@ Class="Function"
 Prototype="int LeerT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
 SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\RTUM.c:304:17"
 
+[SalirM]
+Class="Function"
+Prototype="void SalirM(int menuBar, int menuItem, void *callbackData, int panel);"
+SourceLocation="c:\Tesis Maqui\CVI RTU\TesisCVIM\RTUM.c:327:18"
+
