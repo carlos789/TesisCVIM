@@ -7,12 +7,13 @@
 #include <rs232.h>
 #pragma C99_extensions_on   
 #include "ModbusFramework.h" 
-static int panelHandle,panelHandleChild2, panelHandleChild3;
+static int panelHandle,panelHandleChild2, panelHandleChild3, panelHandleChild4;
 /*---------------------------------------------------------------------------*/
 /* Internal function prototypes                                              */
 /*---------------------------------------------------------------------------*/
 void DisplayRS232Error (void);
 unsigned int cal_crc16 (unsigned char*data,unsigned int length);
+void Consultar1T(void);  //Funciones para consultar con el Timer a los estados
 
 /*---------------------------------------------------------------------------*/
 /* Registros y banderas                                                      */
@@ -24,7 +25,7 @@ char devicename[30]="cerrado";//Indicacion estado puerto
 char datoRS[8];// Vector 
 char datoRX[55];
 double espera=10;// Registro tiempo de espera comunicaciones del ModBus
-
+int offValue=0;
 int main (int argc, char *argv[])
 {
 	if (InitCVIRTE (0, argv, 0) == 0)
@@ -227,7 +228,7 @@ int CVICALLBACK Abrir1 (int panel, int control, int event,
 				 return 0; 
 			 }
 			// if (TimerOn()==0) return 0;  // es para evitar que se superponga con la pregunta periodica
-			valor=ConfirmPopup ("Consulta de operación", "Realmente quiere abrir Las Lajas 2");
+			valor=ConfirmPopup ("Consulta de operación", "Realmente quiere abrir Ventilador 1");
 			if (valor==1)  //Si valor es =1 quiere hacer el comando
 			{
 			//Consultar1T(); 
@@ -254,7 +255,7 @@ int CVICALLBACK Cerrar1 (int panel, int control, int event,
 				 return 0; 
 			 }
 			// if (TimerOn()==0) return 0;  // es para evitar que se superponga con la pregunta periodica
-			valor=ConfirmPopup ("Consulta de operación", "Realmente quiere abrir Las Lajas 2");
+			valor=ConfirmPopup ("Consulta de operación", "Realmente quiere cerrar Ventilador 1");
 			if (valor==1)  //Si valor es =1 quiere hacer el comando
 			{
 			//Consultar1T(); 
@@ -274,7 +275,22 @@ int CVICALLBACK Abrir2 (int panel, int control, int event,
 	switch (event)
 	{
 		case EVENT_COMMIT:
-
+			int valor; //es la salida del popup
+			 if (port_open==0) 
+			 {
+				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Puerto");
+				 return 0; 
+			 }
+			// if (TimerOn()==0) return 0;  // es para evitar que se superponga con la pregunta periodica
+			valor=ConfirmPopup ("Consulta de operación", "Realmente quiere abrir Ventilador 2");
+			if (valor==1)  //Si valor es =1 quiere hacer el comando
+			{
+			//Consultar1T(); 
+			FlushInQ (comport); 
+			FlushOutQ (comport); 
+			Funcion05A(1,0x1,comport, espera );  // Esclavo 2 bobina 0x4004
+			//Consultar1T();
+			}
 			break;
 	}
 	return 0;
@@ -286,7 +302,22 @@ int CVICALLBACK Cerrar2 (int panel, int control, int event,
 	switch (event)
 	{
 		case EVENT_COMMIT:
-
+	int valor; //es la salida del popup
+			 if (port_open==0) 
+			 {
+				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Puerto");
+				 return 0; 
+			 }
+			// if (TimerOn()==0) return 0;  // es para evitar que se superponga con la pregunta periodica
+			valor=ConfirmPopup ("Consulta de operación", "Realmente quiere cerrar Ventilador 2");
+			if (valor==1)  //Si valor es =1 quiere hacer el comando
+			{
+			//Consultar1T(); 
+			FlushInQ (comport); 
+			FlushOutQ (comport); 
+			Funcion05(1,0x1,comport, espera );  // Esclavo 2 bobina 0x4004
+			//Consultar1T();
+			}
 			break;
 	}
 	return 0;
@@ -318,7 +349,33 @@ int CVICALLBACK LeerT (int panel, int control, int event,
 			 }
 	 
 			FlushInQ (comport); 
+			slave=1; //direccion de esclavo
+			memAdr=0x00;// Direccion del Modulo IA
+	        nRegs=0x08;// Leo los registroa IA,IB, IC y IT
 			comerr = QueryMem (slave, memAdr, nRegs, comport, espera);
+			if (comerr < 0) goto Error;
+	 		// Analizo la repuesta del esclavo  
+	  		ReturnMBAnswer (buf, &bRcvd);
+			Ti =(buf[13]<<8) +(buf[14]) ; // hay que dividir por 16
+			Te =(buf[11]<<8) +(buf[12]) ; // hay que dividir por 100
+            
+		    Ti=Ti/16.0; //Temperatura Ds
+			Te=Te/250.0; //Temperatura Ds
+			SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM , Ti);
+	 		SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM_2 , Te);
+Error:
+	if (comerr < 0) {
+		if (comerr==-99)	//se fué por tiempo
+		{
+		sprintf (buf, "Finalizó el tiempo de respuesta");
+		MessagePopup ("Error Comunicaciones", buf);
+		}
+		else
+		{
+		sprintf (buf, "Error %d received in QuerySlave:\n%s", comerr, GetRS232ErrorString (comerr));
+		MessagePopup ("Error Severo", buf);
+		}
+	}
 			break;
 	}
 	return 0;
@@ -328,4 +385,117 @@ void CVICALLBACK SalirM (int menuBar, int menuItem, void *callbackData,
 						 int panel)
 {
 	QuitUserInterface(0); 
+}
+
+int CVICALLBACK Disparo (int panel, int control, int event,
+						 void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+	{
+		case EVENT_TIMER_TICK:
+			if (port_open==0) 
+			 {
+				 SetCtrlAttribute (panelHandleChild3, VerDatos_TIMER,ATTR_ENABLED ,0); //Apagar timer  
+				SetCtrlAttribute (panelHandleChild3, VerDatos_COMMANDBUTTON_9,ATTR_CMD_BUTTON_COLOR ,VAL_RED);
+				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Puerto");
+				 return 0; 
+			 }
+			 Consultar1T();
+			break;
+	}
+	return 0;
+}
+
+int CVICALLBACK ConfT (int panel, int control, int event,
+					   void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+	{
+
+		
+		case EVENT_COMMIT:
+		
+		GetCtrlAttribute(panelHandleChild3, VerDatos_TIMER, ATTR_ENABLED, &offValue );
+		
+		if(offValue==1)
+		{
+		SetCtrlAttribute (panelHandleChild3, VerDatos_TIMER,ATTR_ENABLED ,0); //Apagar timer  
+		SetCtrlAttribute (panelHandleChild3, VerDatos_COMMANDBUTTON_9,ATTR_CMD_BUTTON_COLOR ,VAL_RED);
+		}
+		//GetCtrlAttribute(panelHandleChild3, VerDatos_TIMER, ATTR_ENABLED, &offValue );
+		
+		  if(offValue==0)
+		{
+		SetCtrlAttribute (panelHandleChild3, VerDatos_TIMER,ATTR_ENABLED ,1); //Encender timer  
+		SetCtrlAttribute (panelHandleChild3, VerDatos_COMMANDBUTTON_9,ATTR_CMD_BUTTON_COLOR ,VAL_GREEN);
+		}
+			
+			break;
+	}
+	return 0;
+}
+
+void CVICALLBACK Grafico (int menuBar, int menuItem, void *callbackData,
+						  int panel)
+{
+	if ((panelHandleChild4 = LoadPanel (0, "RTUM.uir", PANELG)) < 0)
+		return  ;
+	
+		InstallPopup (panelHandleChild4);
+}
+
+int CVICALLBACK SalirG (int panel, int control, int event,
+						void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+	{
+		case EVENT_COMMIT:
+	DiscardPanel (panelHandleChild4);
+			break;
+	}
+	return 0;
+}
+
+void Consultar1T(void)  //Funciones para consultar con el Timer a los estados
+{
+	short	memAdr, nRegs, comerr = 0;    
+			int		i, bSent, bRcvd, n;
+			unsigned char	slave, buf[512];
+			double Ti,Te;
+			 if (port_open==0) 
+			 {
+				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Puerto");
+				 return ; 
+			 }
+	 
+			FlushInQ (comport); 
+			slave=1; //direccion de esclavo
+			memAdr=0x00;// Direccion del Modulo IA
+	        nRegs=0x08;// Leo los registroa IA,IB, IC y IT
+			comerr = QueryMem (slave, memAdr, nRegs, comport, espera);
+			if (comerr < 0) goto Error;
+	 		// Analizo la repuesta del esclavo  
+	  		ReturnMBAnswer (buf, &bRcvd);
+			Ti =(buf[13]<<8) +(buf[14]) ; // hay que dividir por 16
+			Te =(buf[11]<<8) +(buf[12]) ; // hay que dividir por 100
+            
+		    Ti=Ti/16.0; //Temperatura Ds
+			Te=Te/250.0; //Temperatura Ds
+			SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM , Ti);
+	 		SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM_2 , Te);
+Error:
+	if (comerr < 0) {
+		if (comerr==-99)	//se fué por tiempo
+		{
+		sprintf (buf, "Finalizó el tiempo de respuesta");
+		MessagePopup ("Error Comunicaciones", buf);
+		}
+		else
+		{
+		sprintf (buf, "Error %d received in QuerySlave:\n%s", comerr, GetRS232ErrorString (comerr));
+		MessagePopup ("Error Severo", buf);
+		}
+	}
+			 
+	 
 }

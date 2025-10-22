@@ -1,20 +1,20 @@
 -nologo
--out:c:\Tesis Maqui\CVI RTU\TesisCVIM\cvibuild.RTUM\Debug\RTUM.exe
+-out:c:\Tesis Maqui\TesisCVIM\cvibuild.RTUM\Debug\RTUM.exe
 -arch:x86
 -timestamp
 -debug:2
--project:c:\Tesis Maqui\CVI RTU\TesisCVIM\RTUM.prj
--res:c:\Tesis Maqui\CVI RTU\TesisCVIM\cvibuild.RTUM\Debug\resources.res
+-project:c:\Tesis Maqui\TesisCVIM\RTUM.prj
+-res:c:\Tesis Maqui\TesisCVIM\cvibuild.RTUM\Debug\resources.res
 -entry:_CVIWinMainStartupCodeForDebugging@0
 -base:0x400000
--linked:c:\Tesis Maqui\CVI RTU\TesisCVIM\cvibuild.RTUM\Debug\linkersummary.txt
--dlldeps:c:\Tesis Maqui\CVI RTU\TesisCVIM\cvibuild.RTUM\Debug\dlldependencies.txt
--licensing:c:\Tesis Maqui\CVI RTU\TesisCVIM\cvibuild.RTUM\Debug\linkerlicensing.txt
--browsedeps:c:\Tesis Maqui\CVI RTU\TesisCVIM\cvibuild.RTUM\Debug\moduledependencies.txt
+-linked:c:\Tesis Maqui\TesisCVIM\cvibuild.RTUM\Debug\linkersummary.txt
+-dlldeps:c:\Tesis Maqui\TesisCVIM\cvibuild.RTUM\Debug\dlldependencies.txt
+-licensing:c:\Tesis Maqui\TesisCVIM\cvibuild.RTUM\Debug\linkerlicensing.txt
+-browsedeps:c:\Tesis Maqui\TesisCVIM\cvibuild.RTUM\Debug\moduledependencies.txt
 -stackreserve:1048576
 -stackcommit:4096
--in:c:\Tesis Maqui\CVI RTU\TesisCVIM\cvibuild.RTUM\Debug\ModbusFramework.obj
--in:c:\Tesis Maqui\CVI RTU\TesisCVIM\cvibuild.RTUM\Debug\RTUM.obj
+-in:c:\Tesis Maqui\TesisCVIM\cvibuild.RTUM\Debug\ModbusFramework.obj
+-in:c:\Tesis Maqui\TesisCVIM\cvibuild.RTUM\Debug\RTUM.obj
 -more:c:\program files (x86)\national instruments\cvi2020\bin\msvc\cvistart.lib
 -more:c:\program files (x86)\national instruments\cvi2020\bin\msvc\cvi.lib
 -more:c:\Program Files (x86)\National Instruments\CVI2020\bin\msvc\advanlys.lib
@@ -31,7 +31,6 @@
 -more:c:\Program Files (x86)\National Instruments\CVI2020\bin\msvc\gpib.lib
 -more:c:\Program Files (x86)\National Instruments\Shared\CVI\Bin\msvc\ivi.lib
 -more:C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x86\kernel32.lib
--more:c:\Program Files (x86)\National Instruments\Shared\CVI\Bin\msvc\NIDAQmx.lib
 -more:c:\Program Files (x86)\National Instruments\Shared\CVI\Bin\msvc\nisyscfg.lib
 -more:c:\Program Files (x86)\National Instruments\CVI2020\bin\msvc\nivxi.lib
 -more:c:\Program Files (x86)\National Instruments\CVI2020\bin\msvc\omp.lib

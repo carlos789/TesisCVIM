@@ -13,11 +13,15 @@
 
      /* Panels and Controls: */
 
-#define  Principal                        1
+#define  PANELG                           1
+#define  PANELG_COMMANDBUTTON             2       /* control type: command, callback function: SalirG */
+#define  PANELG_STRIPCHART                3       /* control type: strip, callback function: (none) */
+
+#define  Principal                        2
 #define  Principal_COMMANDBUTTON_1        2       /* control type: command, callback function: SalirF */
 #define  Principal_PICTURE                3       /* control type: picture, callback function: (none) */
 
-#define  Serial                           2
+#define  Serial                           3
 #define  Serial_COMMANDBUTTON_1           2       /* control type: command, callback function: SalirRS */
 #define  Serial_LED                       3       /* control type: LED, callback function: (none) */
 #define  Serial_STRING                    4       /* control type: string, callback function: (none) */
@@ -28,7 +32,7 @@
 #define  Serial_COMMANDBUTTON_3           9       /* control type: command, callback function: CerrarPuerto */
 #define  Serial_PICTURE_2                 10      /* control type: picture, callback function: (none) */
 
-#define  VerDatos                         3
+#define  VerDatos                         4
 #define  VerDatos_COMMANDBUTTON_1         2       /* control type: command, callback function: SalirDa */
 #define  VerDatos_PICTURE_2               3       /* control type: picture, callback function: (none) */
 #define  VerDatos_LED_4                   4       /* control type: LED, callback function: (none) */
@@ -43,7 +47,9 @@
 #define  VerDatos_NUMERICTHERM_2          13      /* control type: scale, callback function: (none) */
 #define  VerDatos_NUMERICTHERM            14      /* control type: scale, callback function: (none) */
 #define  VerDatos_TEXTMSG_2               15      /* control type: textMsg, callback function: (none) */
-#define  VerDatos_COMMANDBUTTON           16      /* control type: command, callback function: LeerT */
+#define  VerDatos_COMMANDBUTTON_9         16      /* control type: command, callback function: ConfT */
+#define  VerDatos_COMMANDBUTTON           17      /* control type: command, callback function: LeerT */
+#define  VerDatos_TIMER                   18      /* control type: timer, callback function: Disparo */
 
 
      /* Control Arrays: */
@@ -56,7 +62,7 @@
 #define  MENUBAR                          1
 #define  MENUBAR_MENU1                    2       /* callback function: AbrirSerie */
 #define  MENUBAR_MENU2                    3       /* callback function: DatosM */
-#define  MENUBAR_MENU3                    4
+#define  MENUBAR_MENU3                    4       /* callback function: Grafico */
 #define  MENUBAR_Salir                    5       /* callback function: SalirM */
 
 
@@ -69,10 +75,14 @@ void CVICALLBACK AbrirSerie(int menubar, int menuItem, void *callbackData, int p
 int  CVICALLBACK Cerrar1(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK Cerrar2(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CerrarPuerto(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK ConfT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK DatosM(int menubar, int menuItem, void *callbackData, int panel);
+int  CVICALLBACK Disparo(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+void CVICALLBACK Grafico(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK LeerT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK SalirDa(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK SalirF(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK SalirG(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK SalirM(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK SalirRS(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 
