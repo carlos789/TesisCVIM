@@ -12,7 +12,7 @@ VXIplug&play Framework 64-bit Dir = "/C/Program Files/IVI Foundation/VISA/win64"
 Number of Projects = 1
 Active Project = 1
 Project 0001 = "RTUM.prj"
-Drag Bar Left = 160
+Drag Bar Left = 361
 Window Top = 31
 Window Left = 26
 Window Bottom = 533
@@ -30,9 +30,9 @@ Save Changes Before Compiling = "Always"
 Hide Windows = False
 Break At First Statement = False
 Sort Type = "File Name"
-Number of Opened Files = 7
+Number of Opened Files = 4
 Window Confinement Region Enabled = True
-MainColumnWidth = 143
+MainColumnWidth = 344
 FileDateColumnWidth = 70
 FileSizeColumnWidth = 70
 
@@ -48,58 +48,37 @@ Batch Build Debug = False
 [File 0001]
 Path = "/c/Tesis Maqui/TesisCVIM/RTUM.uir"
 File Type = "User Interface Resource"
-Disk Date = 3844016360
+Disk Date = 3844072124
 In Projects = "1,"
 Window Top = 33
 Window Left = 10
 Window Height = 266
 Window Width = 518
-Window Z-Order = 2
+Window Z-Order = 1
 
 [File 0002]
 Path = "/c/Tesis Maqui/TesisCVIM/RTUM.c"
 File Type = "CSource"
-Disk Date = 3844017617
+Disk Date = 3844072590
 In Projects = "1,"
-Source Window State = "1,383,383,383,0,0,0,0,0,0,0,0,0,0,0,0,367,0,383,0,371,602,1,0,"
-Breakpoint 0001 = "386,0,enabled,"
+Source Window State = "1,47,47,47,4,4,4,0,0,0,0,0,0,0,0,0,25,0,47,4,371,602,1,0,"
+Breakpoint 0001 = "402,0,enabled,"
 Tracepoint 0001 = "0,0,354,1,"
 Window Top = 95
 Window Left = 42
-Window Z-Order = 1
+Window Z-Order = 2
 
 [File 0003]
 Path = "/c/Tesis Maqui/TesisCVIM/RTUM.h"
 File Type = "Include"
-Disk Date = 3843566485
+Disk Date = 3844070282
 In Projects = "1,"
-Source Window State = "1,49,49,49,9,33,33,0,3,0,0,0,0,0,0,0,25,0,49,9,356,602,1,0,"
+Source Window State = "1,56,56,56,9,24,9,0,3,0,0,0,0,0,0,0,26,0,56,24,356,602,1,0,"
 Window Top = 157
 Window Left = 74
-Window Z-Order = 7
+Window Z-Order = 3
 
 [File 0004]
-Path = "/c/Tesis Maqui/LasLajas/MICOM.c"
-File Type = "CSource"
-Disk Date = 3591884359
-In Projects = ""
-Source Window State = "1,2537,2539,2537,0,0,0,0,3,0,0,0,0,0,0,0,2527,0,2539,0,401,602,1,0,"
-Window Top = 64
-Window Left = 26
-Window Z-Order = 5
-
-[File 0005]
-Path = "/c/Tesis Maqui/LasLajas/MICOM.uir"
-File Type = "User Interface Resource"
-Disk Date = 3589545120
-In Projects = ""
-Window Top = 95
-Window Left = 42
-Window Height = 401
-Window Width = 602
-Window Z-Order = 6
-
-[File 0006]
 Path = "/c/Tesis Maqui/TesisCVIM/ModbusFramework.c"
 File Type = "CSource"
 Disk Date = 3843411459
@@ -107,9 +86,9 @@ In Projects = "1,"
 Source Window State = "1,553,553,553,4,47,4,0,3,0,0,0,0,0,0,0,537,0,553,47,371,602,1,0,"
 Window Top = 126
 Window Left = 58
-Window Z-Order = 3
+Window Z-Order = 4
 
-[File 0007]
+[File 0005]
 Path = "/c/Tesis Maqui/TesisCVIM/ModbusFramework.h"
 File Type = "Include"
 Disk Date = 3843411459
@@ -118,24 +97,11 @@ Source Window State = "1,21,21,21,83,83,83,0,0,0,0,0,0,0,0,0,0,0,21,83,371,602,1
 Window Top = 95
 Window Left = 42
 
-[File 0008]
-Path = "/c/ESP32S2/esp-modbus/examples/serial/mb_serial_slave/main/serial_slave.c"
-File Type = "CSource"
-Disk Date = 3843480563
-In Projects = ""
-Source Window State = "1,255,257,255,3,0,3,0,3,0,0,0,0,0,0,0,243,0,257,0,401,602,1,0,"
-Window Top = 64
-Window Left = 26
-Window Z-Order = 4
-
 [Tab Order]
 Tab 0001 = "/c/Tesis Maqui/TesisCVIM/RTUM.uir"
 Tab 0002 = "/c/Tesis Maqui/TesisCVIM/RTUM.c"
-Tab 0003 = "/c/Tesis Maqui/TesisCVIM/RTUM.h"
-Tab 0004 = "/c/Tesis Maqui/LasLajas/MICOM.c"
-Tab 0005 = "/c/Tesis Maqui/LasLajas/MICOM.uir"
-Tab 0006 = "/c/ESP32S2/esp-modbus/examples/serial/mb_serial_slave/main/serial_slave.c"
-Tab 0007 = "/c/Tesis Maqui/TesisCVIM/ModbusFramework.c"
+Tab 0003 = "/c/Tesis Maqui/TesisCVIM/ModbusFramework.c"
+Tab 0004 = "/c/Tesis Maqui/TesisCVIM/RTUM.h"
 
 [Default Build Config 0001 Debug]
 Generate Browse Info = True

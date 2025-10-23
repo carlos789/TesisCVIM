@@ -15,7 +15,9 @@
 
 #define  PANELG                           1
 #define  PANELG_COMMANDBUTTON             2       /* control type: command, callback function: SalirG */
-#define  PANELG_STRIPCHART                3       /* control type: strip, callback function: (none) */
+#define  PANELG_LED                       3       /* control type: LED, callback function: (none) */
+#define  PANELG_STRING                    4       /* control type: string, callback function: (none) */
+#define  PANELG_STRIPCHART                5       /* control type: strip, callback function: (none) */
 
 #define  Principal                        2
 #define  Principal_COMMANDBUTTON_1        2       /* control type: command, callback function: SalirF */
@@ -48,8 +50,11 @@
 #define  VerDatos_NUMERICTHERM            14      /* control type: scale, callback function: (none) */
 #define  VerDatos_TEXTMSG_2               15      /* control type: textMsg, callback function: (none) */
 #define  VerDatos_COMMANDBUTTON_9         16      /* control type: command, callback function: ConfT */
-#define  VerDatos_COMMANDBUTTON           17      /* control type: command, callback function: LeerT */
-#define  VerDatos_TIMER                   18      /* control type: timer, callback function: Disparo */
+#define  VerDatos_COMMANDBUTTON_11        17      /* control type: command, callback function: CrearArch */
+#define  VerDatos_COMMANDBUTTON_10        18      /* control type: command, callback function: Arch */
+#define  VerDatos_COMMANDBUTTON           19      /* control type: command, callback function: LeerT */
+#define  VerDatos_TIMER                   20      /* control type: timer, callback function: Disparo */
+#define  VerDatos_STRING                  21      /* control type: string, callback function: (none) */
 
 
      /* Control Arrays: */
@@ -72,10 +77,12 @@ int  CVICALLBACK Abrir1(int panel, int control, int event, void *callbackData, i
 int  CVICALLBACK Abrir2(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK AbrirPuerto(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK AbrirSerie(int menubar, int menuItem, void *callbackData, int panel);
+int  CVICALLBACK Arch(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK Cerrar1(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK Cerrar2(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CerrarPuerto(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK ConfT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK CrearArch(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK DatosM(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK Disparo(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK Grafico(int menubar, int menuItem, void *callbackData, int panel);

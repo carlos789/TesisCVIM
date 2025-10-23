@@ -14,6 +14,14 @@ static int panelHandle,panelHandleChild2, panelHandleChild3, panelHandleChild4;
 void DisplayRS232Error (void);
 unsigned int cal_crc16 (unsigned char*data,unsigned int length);
 void Consultar1T(void);  //Funciones para consultar con el Timer a los estados
+/*---------------------------------------------------------------------------*/
+/* Agregado para texto                                         */
+/*---------------------------------------------------------------------------*/
+char Barchivo=0; // Verifica si guarda archivo esta habilitado
+unsigned char direccion[270];//="c:\";
+int largo, archivo;
+char Hora[20], Fecha[20];
+#define DATETIME_FORMATSTRING "%I:%M:%S %p" //Formato de tiempo para archivo texto
 
 /*---------------------------------------------------------------------------*/
 /* Registros y banderas                                                      */
@@ -235,6 +243,8 @@ int CVICALLBACK Abrir1 (int panel, int control, int event,
 			FlushInQ (comport); 
 			FlushOutQ (comport); 
 			Funcion05A(1,0x0,comport, espera );  // Esclavo 2 bobina 0x4004
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_3,1);
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_2,0);
 			//Consultar1T();
 			}
 			break;
@@ -262,6 +272,8 @@ int CVICALLBACK Cerrar1 (int panel, int control, int event,
 			FlushInQ (comport); 
 			FlushOutQ (comport); 
 			Funcion05(1,0x0,comport, espera );  // Esclavo 2 bobina 0x4004
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_3,0);
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_2,1);
 			//Consultar1T();
 			}
 			break;
@@ -289,6 +301,8 @@ int CVICALLBACK Abrir2 (int panel, int control, int event,
 			FlushInQ (comport); 
 			FlushOutQ (comport); 
 			Funcion05A(1,0x1,comport, espera );  // Esclavo 2 bobina 0x4004
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_5,0);
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_4,1);
 			//Consultar1T();
 			}
 			break;
@@ -316,6 +330,8 @@ int CVICALLBACK Cerrar2 (int panel, int control, int event,
 			FlushInQ (comport); 
 			FlushOutQ (comport); 
 			Funcion05(1,0x1,comport, espera );  // Esclavo 2 bobina 0x4004
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_5,1);
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_4,0);
 			//Consultar1T();
 			}
 			break;
@@ -498,4 +514,76 @@ Error:
 	}
 			 
 	 
+}
+
+int CVICALLBACK Arch (int panel, int control, int event,
+					  void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+	{
+		case EVENT_COMMIT:
+		int stat;
+		char filestring[100];  
+		if (Barchivo){
+		 stat = FileSelectPopupEx ("", "*.txt", "", "Abrir archivo de texto", VAL_LOAD_BUTTON ,0, 0, direccion);
+		sprintf (filestring, "notepad.exe %s", direccion);
+        LaunchExecutable (filestring);
+			}
+			break;
+		}
+	return 0;
+}
+
+
+int CVICALLBACK CrearArch (int panel, int control, int event,
+						   void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+	{
+		case EVENT_COMMIT:
+		int i;
+			  DirSelectPopupEx("C:/Trafo/datos","Guardar en",direccion);	//El primer 1 es para permitir Cancelar y el segundo es para permitir Crear Carpeta
+			largo=StringLength(direccion);
+			strcpy(Hora,TimeStr());			//Copia el pointer string que devuelve TimeStr() y lo pone en el string Hora
+			strcpy(Fecha,DateStr());		//Copia el pointer string que devuelve DateStr() y lo pone en el string Fecha
+			for(i=0;i<largo+1;i++)
+			{
+				if(direccion[i]==0x5C)		//Se cambian todas las barras invertidas porque la direccion "válida" para crear los archivos con OpenFile es con las barras normales ("/")
+				{
+					direccion[i]='/';
+				}
+			}
+			direccion[largo]='/';
+			direccion[largo+1]='H';			//El archivo txt creado va a tener por defecto la palabra Hist y la hora y fecha en la que se creó.
+			direccion[largo+2]='i';
+			direccion[largo+3]='s';
+			direccion[largo+4]='t';
+			direccion[largo+5]=' ';
+			for(i=0;i<6;i++)
+			{
+				direccion[largo+6+i]=Fecha[i];
+			}
+			direccion[largo+11]=' ';
+			for(i=0;i<8;i++)
+			{
+				direccion[largo+12+i]=Hora[i];
+			}
+			direccion[largo+12+2]='h';	//Se tienen que cambiar los ":" que aparecen en la hora porque no se pueden poner de nombre
+			direccion[largo+12+5]='m';
+			direccion[largo+20]='.';
+			direccion[largo+21]='t';
+			direccion[largo+22]='x';
+			direccion[largo+23]='t';
+			
+			
+			SetCtrlVal(panelHandleChild3,VerDatos_STRING,direccion);    //Ya esta guardada la direccion (completa) en el string "direccion" para despues ser usada por la funcion OpenFile
+			
+			archivo=OpenFile(direccion,VAL_WRITE_ONLY,VAL_OPEN_AS_IS,VAL_ASCII);	//Crea el archivo txt en la direccion "direccion". Se usa despues la variable "archivo" para identificar el txt al cual se escribe
+			SetStdioWindowVisibility(0);		//Oculta la ventana I/O Standard que aparece. 
+			WriteLine (archivo," Transformador 1       Temperatura interna            Temperatura externa      Hora", 84);	  //Apenas creado el archivo se escribe una fila para identificar las 6 variables
+
+			 Barchivo=1; //Indico que quiero guardar los datos en un archivo
+			break;
+	}
+	return 0;
 }
