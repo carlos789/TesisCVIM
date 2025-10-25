@@ -17,7 +17,10 @@
 #define  PANELG_COMMANDBUTTON             2       /* control type: command, callback function: SalirG */
 #define  PANELG_LED                       3       /* control type: LED, callback function: (none) */
 #define  PANELG_STRING                    4       /* control type: string, callback function: (none) */
-#define  PANELG_STRIPCHART                5       /* control type: strip, callback function: (none) */
+#define  PANELG_COMMANDBUTTON_2           5       /* control type: command, callback function: LeerTXT */
+#define  PANELG_GRAPH                     6       /* control type: graph, callback function: CursorM */
+#define  PANELG_NUMERIC_2                 7       /* control type: numeric, callback function: (none) */
+#define  PANELG_STRING_2                  8       /* control type: string, callback function: (none) */
 
 #define  Principal                        2
 #define  Principal_COMMANDBUTTON_1        2       /* control type: command, callback function: SalirF */
@@ -36,25 +39,27 @@
 
 #define  VerDatos                         4
 #define  VerDatos_COMMANDBUTTON_1         2       /* control type: command, callback function: SalirDa */
-#define  VerDatos_PICTURE_2               3       /* control type: picture, callback function: (none) */
-#define  VerDatos_LED_4                   4       /* control type: LED, callback function: (none) */
-#define  VerDatos_LED_5                   5       /* control type: LED, callback function: (none) */
-#define  VerDatos_COMMANDBUTTON_7         6       /* control type: command, callback function: Cerrar2 */
-#define  VerDatos_COMMANDBUTTON_8         7       /* control type: command, callback function: Abrir2 */
-#define  VerDatos_LED_3                   8       /* control type: LED, callback function: (none) */
-#define  VerDatos_LED_2                   9       /* control type: LED, callback function: (none) */
-#define  VerDatos_COMMANDBUTTON_5         10      /* control type: command, callback function: Cerrar1 */
-#define  VerDatos_COMMANDBUTTON_6         11      /* control type: command, callback function: Abrir1 */
-#define  VerDatos_TEXTMSG                 12      /* control type: textMsg, callback function: (none) */
-#define  VerDatos_NUMERICTHERM_2          13      /* control type: scale, callback function: (none) */
-#define  VerDatos_NUMERICTHERM            14      /* control type: scale, callback function: (none) */
-#define  VerDatos_TEXTMSG_2               15      /* control type: textMsg, callback function: (none) */
-#define  VerDatos_COMMANDBUTTON_9         16      /* control type: command, callback function: ConfT */
-#define  VerDatos_COMMANDBUTTON_11        17      /* control type: command, callback function: CrearArch */
-#define  VerDatos_COMMANDBUTTON_10        18      /* control type: command, callback function: Arch */
-#define  VerDatos_COMMANDBUTTON           19      /* control type: command, callback function: LeerT */
-#define  VerDatos_TIMER                   20      /* control type: timer, callback function: Disparo */
-#define  VerDatos_STRING                  21      /* control type: string, callback function: (none) */
+#define  VerDatos_LED                     3       /* control type: LED, callback function: (none) */
+#define  VerDatos_STRING_2                4       /* control type: string, callback function: (none) */
+#define  VerDatos_PICTURE_2               5       /* control type: picture, callback function: (none) */
+#define  VerDatos_LED_4                   6       /* control type: LED, callback function: (none) */
+#define  VerDatos_LED_5                   7       /* control type: LED, callback function: (none) */
+#define  VerDatos_COMMANDBUTTON_7         8       /* control type: command, callback function: Cerrar2 */
+#define  VerDatos_COMMANDBUTTON_8         9       /* control type: command, callback function: Abrir2 */
+#define  VerDatos_LED_3                   10      /* control type: LED, callback function: (none) */
+#define  VerDatos_LED_2                   11      /* control type: LED, callback function: (none) */
+#define  VerDatos_COMMANDBUTTON_5         12      /* control type: command, callback function: Cerrar1 */
+#define  VerDatos_COMMANDBUTTON_6         13      /* control type: command, callback function: Abrir1 */
+#define  VerDatos_TEXTMSG                 14      /* control type: textMsg, callback function: (none) */
+#define  VerDatos_NUMERICTHERM_2          15      /* control type: scale, callback function: (none) */
+#define  VerDatos_NUMERICTHERM            16      /* control type: scale, callback function: (none) */
+#define  VerDatos_TEXTMSG_2               17      /* control type: textMsg, callback function: (none) */
+#define  VerDatos_COMMANDBUTTON_9         18      /* control type: command, callback function: ConfT */
+#define  VerDatos_COMMANDBUTTON_11        19      /* control type: command, callback function: CrearArch */
+#define  VerDatos_COMMANDBUTTON_10        20      /* control type: command, callback function: Arch */
+#define  VerDatos_COMMANDBUTTON           21      /* control type: command, callback function: LeerT */
+#define  VerDatos_TIMER                   22      /* control type: timer, callback function: Disparo */
+#define  VerDatos_STRING                  23      /* control type: string, callback function: (none) */
 
 
      /* Control Arrays: */
@@ -83,10 +88,12 @@ int  CVICALLBACK Cerrar2(int panel, int control, int event, void *callbackData, 
 int  CVICALLBACK CerrarPuerto(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK ConfT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK CrearArch(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK CursorM(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK DatosM(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK Disparo(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK Grafico(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK LeerT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
+int  CVICALLBACK LeerTXT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK SalirDa(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK SalirF(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 int  CVICALLBACK SalirG(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);

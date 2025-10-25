@@ -84,16 +84,6 @@ void CVICALLBACK AbrirSerie (int menuBar, int menuItem, void *callbackData,
 		return  ;
 	
 		InstallPopup (panelHandleChild2);
-		if (port_open ==1)
-			{
-            SetCtrlVal (panelHandleChild2, Serial_LED , 1); 
-			SetCtrlVal (panelHandleChild2, Serial_STRING , devicename);
-			}
-		else
-			{
-            SetCtrlVal (panelHandleChild2, Serial_LED , 0); 
-			SetCtrlVal (panelHandleChild2, Serial_STRING , "cerrado");
-			}
 }
 
 int CVICALLBACK AbrirPuerto (int panel, int control, int event,
@@ -358,17 +348,6 @@ void CVICALLBACK DatosM (int menuBar, int menuItem, void *callbackData,
 		return  ;
 	
 		InstallPopup (panelHandleChild3);
-		if (port_open ==1)
-			{
-            SetCtrlVal (panelHandleChild3, VerDatos_LED , 1); 
-			SetCtrlVal (panelHandleChild3, VerDatos_STRING_2 , devicename);
-			}
-
-		else 
-		{
-		SetCtrlVal (panelHandleChild3, VerDatos_LED , 0); 	
-		SetCtrlVal (panelHandleChild3, VerDatos_STRING_2 , "cerrado");	
-		}
 }
 
 int CVICALLBACK LeerT (int panel, int control, int event,
@@ -487,16 +466,6 @@ void CVICALLBACK Grafico (int menuBar, int menuItem, void *callbackData,
 		return  ;
 	
 		InstallPopup (panelHandleChild4);
-		if (port_open ==1)
-			{
-            SetCtrlVal (panelHandleChild4, PANELG_LED  , 1); 
-			SetCtrlVal (panelHandleChild4, PANELG_STRING , devicename);
-			}
-		else 
-			{
-            SetCtrlVal (panelHandleChild4, PANELG_LED  , 0); 
-			SetCtrlVal (panelHandleChild4, PANELG_STRING , "cerrado");
-			}
 }
 
 int CVICALLBACK SalirG (int panel, int control, int event,
@@ -692,7 +661,6 @@ int CVICALLBACK LeerTXT (int panel, int control, int event,
         // Manejar error de asignación de memoria
         if (x_data) free(x_data);
         if (y_data) free(y_data);
-		fclose(file);
         return 0;
     }
     
@@ -701,84 +669,33 @@ int CVICALLBACK LeerTXT (int panel, int control, int event,
     if (file == NULL) {
         free(x_data);
         free(y_data);
-		fclose(file);
         return;
     }
 
     // Leer los datos línea por línea
-   
+    for (int i = 0; i <= lines; i++) {
+        // Asumiendo formato "X, Y" por línea
+        fscanf(file, "%lf, %lf", &x_data[i], &y_data[i]);
+    }
 	
-	char line_buffer[256];
+	char line_buffer[512];
     double x_val, y_val;
 	int numPoints = 0;
     int hour, minute, second;
-	double time_data[lines]; // Almacena el tiempo como segundos desde la medianoche
-
 // Leer el archivo línea por línea
-    while (fgets(line_buffer, sizeof(line_buffer), file) != NULL && numPoints < (lines-2)) {
+    while (fgets(line_buffer, sizeof(line_buffer), file) != NULL && numPoints < lines) {
         // Analizar la línea usando sscanf
         if (sscanf(line_buffer, "%lf %lf %d:%d:%d", &x_val, &y_val, &hour, &minute, &second) == 5) {
             x_data[numPoints] = x_val;
             y_data[numPoints] = y_val;
-             time_data[numPoints] = (double)hour * 3600 + (double)minute * 60 + (double)second;
+            //time_data[numPoints] = (double)hour * 3600 + (double)minute * 60 + (double)second;
             numPoints++;
-        }    }
-		
-		fclose(file);
-		if (numPoints > 0) {
-        // Borrar el gráfico existente
-        DeleteGraphPlot(panelHandleChild4, PANELG_GRAPH, -1, VAL_IMMEDIATE_DRAW );
-        
-        // Graficar los datos (aquí se grafica temperatura interna y externa vs. tiempo)
-        int plotHandle1=PlotXY(panelHandleChild4, PANELG_GRAPH, time_data, x_data, numPoints, VAL_DOUBLE, VAL_DOUBLE, VAL_THIN_LINE, VAL_EMPTY_SQUARE, VAL_SOLID, 1, VAL_BLUE);
-        SetPlotAttribute(panelHandleChild4, PANELG_GRAPH, plotHandle1, ATTR_PLOT_LG_TEXT, "Temperatura Interna");
+        }
+    }
 
-		int plotHandle2 =PlotXY(panelHandleChild4, PANELG_GRAPH, time_data, y_data, numPoints, VAL_DOUBLE, VAL_DOUBLE, VAL_THIN_LINE, VAL_EMPTY_SQUARE, VAL_SOLID, 1, VAL_RED);
-       	SetPlotAttribute(panelHandleChild4, PANELG_GRAPH, plotHandle2, ATTR_PLOT_LG_TEXT, "Temperatuta Externa");
 
-        // Configurar el eje X para mostrar el tiempo
-        SetCtrlAttribute(panelHandleChild4, PANELG_GRAPH, ATTR_XFORMAT, VAL_ABSOLUTE_TIME_FORMAT);
-        SetAxisTimeFormat(panelHandleChild4, PANELG_GRAPH, VAL_BOTTOM_XAXIS, VAL_ABSOLUTE_TIME_FORMAT, "%H:%M:%S");
-
-        SetCtrlAttribute(panelHandleChild4, PANELG_GRAPH, ATTR_XMAP_MODE, VAL_LINEAR);
-        SetCtrlAttribute(panelHandleChild4, PANELG_GRAPH, ATTR_YMAP_MODE, VAL_LINEAR);
-		
-		// Cambiar el color de fondo del área de ploteo a un azul oscuro
-    	SetCtrlAttribute(panelHandleChild4, PANELG_GRAPH, ATTR_PLOT_BGCOLOR, VAL_DK_BLUE);
-
-    // Cambiar el color de fondo del control completo a un gris claro
-    	SetCtrlAttribute(panelHandleChild4, PANELG_GRAPH, ATTR_PLOT_BGCOLOR, VAL_TRANSPARENT);
 
 			break;
-	} }
-	return 0;
-}
-
-int CVICALLBACK CursorM (int panel, int control, int event,
-						 void *callbackData, int eventData1, int eventData2)
-{
-	int    activeCursor;
-    double cursorX, cursorY;
-    char time_string[10]; // Búfer para la cadena de tiempo (ej. "HH:MM:SS\0")
-
-    if ((event == EVENT_VAL_CHANGED)||(event == EVENT_COMMIT))
-        {
-        GetActiveGraphCursor (panelHandleChild4, PANELG_GRAPH , &activeCursor);
-        GetGraphCursor (panelHandleChild4, PANELG_GRAPH , activeCursor, &cursorX, &cursorY);
-       
-            SetCtrlVal (panelHandleChild4, PANELG_NUMERIC_2 , cursorY);
-             int total_seconds = cursorX;
-        
-        int hours = total_seconds / 3600;
-        int minutes = (total_seconds % 3600) / 60;
-        int seconds = total_seconds % 60;
-
-        // Formatear las variables de tiempo en una única cadena
-        sprintf(time_string, "%02d:%02d:%02d", hours, minutes, seconds);
-     
-        // Actualizar el control de cadena con el valor formateado
-         SetCtrlVal(panelHandleChild4, PANELG_STRING_2, time_string);
-           
-        }
+	}
 	return 0;
 }

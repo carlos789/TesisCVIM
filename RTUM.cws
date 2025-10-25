@@ -12,7 +12,7 @@ VXIplug&play Framework 64-bit Dir = "/C/Program Files/IVI Foundation/VISA/win64"
 Number of Projects = 1
 Active Project = 1
 Project 0001 = "RTUM.prj"
-Drag Bar Left = 361
+Drag Bar Left = 160
 Window Top = 31
 Window Left = 26
 Window Bottom = 533
@@ -32,7 +32,7 @@ Break At First Statement = False
 Sort Type = "File Name"
 Number of Opened Files = 4
 Window Confinement Region Enabled = True
-MainColumnWidth = 344
+MainColumnWidth = 143
 FileDateColumnWidth = 70
 FileSizeColumnWidth = 70
 
@@ -46,44 +46,42 @@ Batch Build Release = False
 Batch Build Debug = False
 
 [File 0001]
+Path = "/c/Tesis Maqui/TesisCVIM/RTUM.c"
+File Type = "CSource"
+Disk Date = 3844277908
+In Projects = "1,"
+Source Window State = "1,497,497,497,68,68,68,0,0,0,0,0,0,0,0,0,478,0,497,68,266,518,1,0,"
+Window Top = 33
+Window Left = 10
+Window Z-Order = 1
+
+[File 0002]
 Path = "/c/Tesis Maqui/TesisCVIM/RTUM.uir"
 File Type = "User Interface Resource"
-Disk Date = 3844072124
+Disk Date = 3844277475
 In Projects = "1,"
 Window Top = 33
 Window Left = 10
 Window Height = 266
 Window Width = 518
-Window Z-Order = 1
-
-[File 0002]
-Path = "/c/Tesis Maqui/TesisCVIM/RTUM.c"
-File Type = "CSource"
-Disk Date = 3844072590
-In Projects = "1,"
-Source Window State = "1,47,47,47,4,4,4,0,0,0,0,0,0,0,0,0,25,0,47,4,371,602,1,0,"
-Breakpoint 0001 = "402,0,enabled,"
-Tracepoint 0001 = "0,0,354,1,"
-Window Top = 95
-Window Left = 42
-Window Z-Order = 2
+Window Z-Order = 3
 
 [File 0003]
 Path = "/c/Tesis Maqui/TesisCVIM/RTUM.h"
 File Type = "Include"
-Disk Date = 3844070282
+Disk Date = 3844277475
 In Projects = "1,"
-Source Window State = "1,56,56,56,9,24,9,0,3,0,0,0,0,0,0,0,26,0,56,24,356,602,1,0,"
+Source Window State = "1,41,41,41,9,21,9,0,3,0,0,0,0,0,0,0,35,0,41,21,356,602,1,0,"
 Window Top = 157
 Window Left = 74
-Window Z-Order = 3
+Window Z-Order = 2
 
 [File 0004]
 Path = "/c/Tesis Maqui/TesisCVIM/ModbusFramework.c"
 File Type = "CSource"
 Disk Date = 3843411459
 In Projects = "1,"
-Source Window State = "1,553,553,553,4,47,4,0,3,0,0,0,0,0,0,0,537,0,553,47,371,602,1,0,"
+Source Window State = "1,288,288,288,13,46,13,0,3,0,0,0,0,0,0,0,279,0,288,46,371,602,1,0,"
 Window Top = 126
 Window Left = 58
 Window Z-Order = 4
@@ -98,8 +96,8 @@ Window Top = 95
 Window Left = 42
 
 [Tab Order]
-Tab 0001 = "/c/Tesis Maqui/TesisCVIM/RTUM.uir"
-Tab 0002 = "/c/Tesis Maqui/TesisCVIM/RTUM.c"
+Tab 0001 = "/c/Tesis Maqui/TesisCVIM/RTUM.c"
+Tab 0002 = "/c/Tesis Maqui/TesisCVIM/RTUM.uir"
 Tab 0003 = "/c/Tesis Maqui/TesisCVIM/ModbusFramework.c"
 Tab 0004 = "/c/Tesis Maqui/TesisCVIM/RTUM.h"
 
@@ -190,4 +188,37 @@ External Process Path = ""
 Command Line Args = ""
 Working Directory = ""
 Environment Options = ""
+
+[Watch 1]
+Watch Expression = "strgtxt"
+
+[Watch 2]
+Watch Expression = "x_data"
+
+[Watch 3]
+Watch Expression = "y_data"
+
+[Watch 4]
+Watch Expression = "line_buffer"
+
+[Watch 5]
+Watch Expression = "x_val"
+
+[Watch 6]
+Watch Expression = "y_val"
+
+[Watch 7]
+Watch Expression = "hour"
+
+[Watch 8]
+Watch Expression = "minute"
+
+[Watch 9]
+Watch Expression = "second"
+
+[Watch 10]
+Watch Expression = "break"
+
+[Watch 11]
+Watch Expression = "time_data"
 
