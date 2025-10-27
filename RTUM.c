@@ -398,8 +398,8 @@ int CVICALLBACK LeerT (int panel, int control, int event,
 			Ti =(buf[13]<<8) +(buf[14]) ; // hay que dividir por 16
 			Te =(buf[11]<<8) +(buf[12]) ; // hay que dividir por 100
             
-		    Ti=Ti/16.0; //Temperatura Ds
-			Te=Te/250.0; //Temperatura Ds
+		    Ti=Ti/16.0; //Temperatura  exteriior DS18B20
+			Te=Te/100.0; //Temperatura interior  Max31865
 			SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM , Ti);
 	 		SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM_2 , Te);
 Error:
@@ -534,8 +534,8 @@ void Consultar1T(void)  //Funciones para consultar con el Timer al equipo con Mo
 			Ti =(buf[13]<<8) +(buf[14]) ; // hay que dividir por 16
 			Te =(buf[11]<<8) +(buf[12]) ; // hay que dividir por 100
             
-		    Ti=Ti/16.0; //Temperatura Ds
-			Te=Te/250.0; //Temperatura Ds
+		    Ti=Ti/16.0; //Temperatura exterior DS18B29
+			Te=Te/100.0; //Temperatura interior Max31865
 			SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM , Ti);
 	 		SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM_2 , Te);
 Error:
