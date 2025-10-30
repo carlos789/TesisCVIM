@@ -1,125 +1,150 @@
 [main]
 Class="Function"
 Prototype="int main(int argc, char *argv[]);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:39:5"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:68:5"
 
 [SalirRS]
 Class="Function"
 Prototype="int SalirRS(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:56:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:85:17"
 
 [SalirF]
 Class="Function"
 Prototype="int SalirF(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:68:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:97:17"
 
 [AbrirSerie]
 Class="Function"
 Prototype="void AbrirSerie(int menuBar, int menuItem, void *callbackData, int panel);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:80:18"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:109:18"
 
 [AbrirPuerto]
 Class="Function"
 Prototype="int AbrirPuerto(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:99:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:128:17"
 
 [CerrarPuerto]
 Class="Function"
 Prototype="int CerrarPuerto(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:143:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:172:17"
 
 [cal_crc16]
 Class="Function"
 Prototype="unsigned int cal_crc16(unsigned char *data, unsigned int length);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:161:14"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:190:14"
 
 [DisplayRS232Error]
 Class="Function"
 Prototype="void DisplayRS232Error();"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:184:6"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:213:6"
 
 [SalirDa]
 Class="Function"
 Prototype="int SalirDa(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:226:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:255:17"
 
 [Abrir1]
 Class="Function"
 Prototype="int Abrir1(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:238:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:267:17"
 
 [Cerrar1]
 Class="Function"
 Prototype="int Cerrar1(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:267:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:335:17"
 
 [Abrir2]
 Class="Function"
 Prototype="int Abrir2(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:296:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:403:17"
 
 [Cerrar2]
 Class="Function"
 Prototype="int Cerrar2(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:325:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:469:17"
 
 [DatosM]
 Class="Function"
 Prototype="void DatosM(int menuBar, int menuItem, void *callbackData, int panel);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:354:18"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:537:18"
 
 [LeerT]
 Class="Function"
 Prototype="int LeerT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:374:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:567:17"
 
 [SalirM]
 Class="Function"
 Prototype="void SalirM(int menuBar, int menuItem, void *callbackData, int panel);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:423:18"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:662:18"
 
 [Disparo]
 Class="Function"
 Prototype="int Disparo(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:429:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:668:17"
 
 [ConfT]
 Class="Function"
 Prototype="int ConfT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:454:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:693:17"
 
 [Grafico]
 Class="Function"
 Prototype="void Grafico(int menuBar, int menuItem, void *callbackData, int panel);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:483:18"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:722:18"
 
 [SalirG]
 Class="Function"
 Prototype="int SalirG(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:502:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:741:17"
 
 [Consultar1T]
 Class="Function"
 Prototype="void Consultar1T();"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:514:6"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:753:6"
 
 [Arch]
 Class="Function"
 Prototype="int Arch(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:558:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:842:17"
 
 [CrearArch]
 Class="Function"
 Prototype="int CrearArch(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:577:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:861:17"
 
 [LeerTXT]
 Class="Function"
 Prototype="int LeerTXT(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:637:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:922:17"
 
 [CursorM]
 Class="Function"
 Prototype="int CursorM(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
-SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:757:17"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:1042:17"
+
+[SalirTCP]
+Class="Function"
+Prototype="int SalirTCP(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:1071:17"
+
+[AbrirTCPP]
+Class="Function"
+Prototype="int AbrirTCPP(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:1083:17"
+
+[CerrarTCPIP]
+Class="Function"
+Prototype="int CerrarTCPIP(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:1156:17"
+
+[AbrirTCP]
+Class="Function"
+Prototype="void AbrirTCP(int menuBar, int menuItem, void *callbackData, int panel);"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:1174:18"
+
+[ClientTCPCB]
+Class="Function"
+Prototype="int ClientTCPCB(unsigned int handle, int event, int error, void *callbackData);"
+SourceLocation="c:\Tesis Maqui\TesisCVIM\RTUM.c:1211:17"
 

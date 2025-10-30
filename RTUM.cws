@@ -13,9 +13,9 @@ Number of Projects = 1
 Active Project = 1
 Project 0001 = "RTUM.prj"
 Drag Bar Left = 160
-Window Top = 31
+Window Top = 65
 Window Left = 26
-Window Bottom = 533
+Window Bottom = 567
 Window Right = 816
 Maximized = True
 Maximized Children = True
@@ -30,7 +30,7 @@ Save Changes Before Compiling = "Always"
 Hide Windows = False
 Break At First Statement = False
 Sort Type = "File Name"
-Number of Opened Files = 4
+Number of Opened Files = 3
 Window Confinement Region Enabled = True
 MainColumnWidth = 143
 FileDateColumnWidth = 70
@@ -48,9 +48,9 @@ Batch Build Debug = False
 [File 0001]
 Path = "/c/Tesis Maqui/TesisCVIM/RTUM.c"
 File Type = "CSource"
-Disk Date = 3844438748
+Disk Date = 3844682808
 In Projects = "1,"
-Source Window State = "1,537,537,537,20,20,20,0,0,0,0,0,0,0,0,0,520,0,537,20,266,518,1,0,"
+Source Window State = "1,374,374,374,46,46,46,0,0,0,0,0,0,0,0,0,362,0,374,46,266,518,1,0,"
 Window Top = 33
 Window Left = 10
 Window Z-Order = 1
@@ -58,7 +58,7 @@ Window Z-Order = 1
 [File 0002]
 Path = "/c/Tesis Maqui/TesisCVIM/RTUM.uir"
 File Type = "User Interface Resource"
-Disk Date = 3844277475
+Disk Date = 3844678558
 In Projects = "1,"
 Window Top = 33
 Window Left = 10
@@ -69,9 +69,9 @@ Window Z-Order = 2
 [File 0003]
 Path = "/c/Tesis Maqui/TesisCVIM/RTUM.h"
 File Type = "Include"
-Disk Date = 3844277475
+Disk Date = 3844677456
 In Projects = "1,"
-Source Window State = "1,41,41,41,9,21,9,0,3,0,0,0,0,0,0,0,35,0,41,21,356,602,1,0,"
+Source Window State = "1,50,50,50,14,25,14,0,3,0,0,0,0,0,0,0,35,0,50,25,356,602,1,0,"
 Window Top = 157
 Window Left = 74
 Window Z-Order = 3
@@ -81,10 +81,9 @@ Path = "/c/Tesis Maqui/TesisCVIM/ModbusFramework.c"
 File Type = "CSource"
 Disk Date = 3843411459
 In Projects = "1,"
-Source Window State = "1,288,288,288,13,46,13,0,3,0,0,0,0,0,0,0,279,0,288,46,371,602,1,0,"
+Source Window State = "1,12,12,12,48,48,48,0,0,0,0,0,0,0,0,0,271,0,12,48,371,602,1,0,"
 Window Top = 126
 Window Left = 58
-Window Z-Order = 4
 
 [File 0005]
 Path = "/c/Tesis Maqui/TesisCVIM/ModbusFramework.h"
@@ -98,8 +97,7 @@ Window Left = 42
 [Tab Order]
 Tab 0001 = "/c/Tesis Maqui/TesisCVIM/RTUM.c"
 Tab 0002 = "/c/Tesis Maqui/TesisCVIM/RTUM.uir"
-Tab 0003 = "/c/Tesis Maqui/TesisCVIM/ModbusFramework.c"
-Tab 0004 = "/c/Tesis Maqui/TesisCVIM/RTUM.h"
+Tab 0003 = "/c/Tesis Maqui/TesisCVIM/RTUM.h"
 
 [Default Build Config 0001 Debug]
 Generate Browse Info = True
@@ -221,4 +219,10 @@ Watch Expression = "break"
 
 [Watch 11]
 Watch Expression = "time_data"
+
+[Watch 12]
+Watch Expression = "WTCPVec"
+
+[Watch 13]
+Watch Expression = "RTCPVec"
 

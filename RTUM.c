@@ -1,3 +1,4 @@
+
 #include <cvirte.h>		
 #include <userint.h>
 #include "RTUM.h"
@@ -7,7 +8,8 @@
 #include <rs232.h>
 #pragma C99_extensions_on   
 #include "ModbusFramework.h" 
-static int panelHandle,panelHandleChild2, panelHandleChild3, panelHandleChild4;
+#include <tcpsupp.h>
+static int panelHandle,panelHandleChild2, panelHandleChild3, panelHandleChild4, panelHandleChild5;
 /*---------------------------------------------------------------------------*/
 /* Internal function prototypes                                              */
 /*---------------------------------------------------------------------------*/
@@ -25,11 +27,38 @@ char Hora1[20], Fecha1[20];
 char strgtxt [160]={0}; 
 double Ti,Te;// variables de lectura de la temperatura interior y exterior
 int archivo, archivo1;
+
+ 
+/*---------------------------------------------------------------------------*/ 
+   /*---------------------------------------------------------------------------*/
+/* Macros						                                             */
+/*---------------------------------------------------------------------------*/
+#define tcpChk(f) if ((g_TCPError=(f)) < 0) {ReportTCPError(); goto Done;} else 
+
+/*---------------------------------------------------------------------------*/
+/* Internal function prototypes                                              */
+/*---------------------------------------------------------------------------*/
+int CVICALLBACK ClientTCPCB (unsigned handle, int event, int error,
+                             void *callbackData);
+static void ReportTCPError (void);   
+/*---------------------------------------------------------------------------*/
+/* Module-globals                                                            */
+/*---------------------------------------------------------------------------*/
+static unsigned int g_hconversation;
+static int          g_hmainPanel;
+static int			g_connected = 0;
+static int			g_TCPError = 0;
+unsigned char RTCPVec[16]={0};  ; //Vector para leer ModBus  TCP
+unsigned char WTCPVec[16]={0};  ; //Vector para escri bir  ModBus  TCP
+unsigned int TramaTcp=0; //indicador de trama TCP Modbud
+
+/*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 /* Registros y banderas                                                      */
 /*---------------------------------------------------------------------------*/
  
 int port_open=0; //Indica si hay un puerto serial abierto
+int tcp_open =0; //Indica si hay un puerto TCP abierto
 int RS232Error,baudrate,comport, port_open,portindex;//Variables para  puerto serial
 char devicename[30]="cerrado";//Indicacion estado puerto
 char datoRS[8];// Vector 
@@ -242,7 +271,8 @@ int CVICALLBACK Abrir1 (int panel, int control, int event,
 	{
 		case EVENT_COMMIT:
 		 	int valor; //es la salida del popup
-			 if (port_open==0) 
+			
+			 if (port_open==0 && tcp_open==0) 
 			 {
 				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Puerto");
 				 return 0; 
@@ -252,6 +282,8 @@ int CVICALLBACK Abrir1 (int panel, int control, int event,
 			if (valor==1)  //Si valor es =1 quiere hacer el comando
 			{
 			//Consultar1T(); 
+			if (port_open ==1  && tcp_open==0)
+			{
 			FlushInQ (comport); 
 			FlushOutQ (comport); 
 			Funcion05A(1,0x0,comport, espera );  // Esclavo 2 bobina 0x4004
@@ -259,6 +291,42 @@ int CVICALLBACK Abrir1 (int panel, int control, int event,
 			SetCtrlVal(panelHandleChild3,VerDatos_LED_2,0);
 			//Consultar1T();
 			}
+			
+			if (port_open ==0  && tcp_open==1)
+			{
+			double	tini, msecWait;// Variables de tiempo
+			int datalong=0;
+			 WTCPVec[0]= (TramaTcp>>8);//Byte alto la trama
+			 WTCPVec[1]= (TramaTcp>>8);// Byte baj la trama
+			 WTCPVec[2]= 0;
+			 WTCPVec[3]= 0;
+			 WTCPVec[4]= 0;
+			 WTCPVec[5]= 6;// Cantidad de Bytes
+			 WTCPVec[6]= 1;//Esclavo
+			 WTCPVec[7]= 5;//Funcion 0x05
+			 WTCPVec[8]= 0;//valor alto Coil
+			 WTCPVec[9]= 0;//valor bajo Coil
+			 WTCPVec[10]= 0;//valor  Abrir
+			 WTCPVec[11]= 0;//valor  
+			 if (ClientTCPWrite (g_hconversation, WTCPVec, 12, 1000) < 0)
+						 goto Error1; 
+			TramaTcp =TramaTcp+1;
+	 		// Espero repuesta esclavsl
+			tini = Timer (); 
+			msecWait /= 1000.0;
+	while (Timer () - tini < msecWait) ProcessSystemEvents ();
+	Delay (msecWait); 
+	// Check the correct # of bytes received
+	
+	
+	  if (datalong = ClientTCPRead (g_hconversation, RTCPVec, 13 , 1000)< 0)//mb.bRcvd
+	{
+	 	goto Error1; }
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_3,1);
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_2,0);
+			}
+			}
+Error1:
 			break;
 	}
 	return 0;
@@ -271,7 +339,7 @@ int CVICALLBACK Cerrar1 (int panel, int control, int event,
 	{
 		case EVENT_COMMIT:
 			int valor; //es la salida del popup
-			 if (port_open==0) 
+			 if (port_open==0 && tcp_open==0)  
 			 {
 				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Puerto");
 				 return 0; 
@@ -279,6 +347,8 @@ int CVICALLBACK Cerrar1 (int panel, int control, int event,
 			// if (TimerOn()==0) return 0;  // es para evitar que se superponga con la pregunta periodica
 			valor=ConfirmPopup ("Consulta de operación", "Realmente quiere cerrar Ventilador 1");
 			if (valor==1)  //Si valor es =1 quiere hacer el comando
+			{
+				if (port_open ==1  && tcp_open==0)// Modbus Serial
 			{
 			//Consultar1T(); 
 			FlushInQ (comport); 
@@ -288,6 +358,43 @@ int CVICALLBACK Cerrar1 (int panel, int control, int event,
 			SetCtrlVal(panelHandleChild3,VerDatos_LED_2,1);
 			//Consultar1T();
 			}
+			
+			if (port_open ==0  && tcp_open==1)
+			{
+			double	tini, msecWait;// Variables de tiempo
+			int datalong=0;
+			 WTCPVec[0]= (TramaTcp>>8);//Byte alto la trama
+			 WTCPVec[1]= (TramaTcp>>8);// Byte baj la trama
+			 WTCPVec[2]= 0;
+			 WTCPVec[3]= 0;
+			 WTCPVec[4]= 0;
+			 WTCPVec[5]= 6;// Cantidad de Bytes
+			 WTCPVec[6]= 1;//Esclavo
+			 WTCPVec[7]= 5;//Funcion 0x05
+			 WTCPVec[8]= 0;//valor alto Coil 0
+			 WTCPVec[9]= 0;//valor bajo Coil 0
+			 WTCPVec[10]= 0xFF;//valor  Cerrar
+			 WTCPVec[11]= 0;//valor  
+			 if (ClientTCPWrite (g_hconversation, WTCPVec, 12, 1000) < 0)
+						 goto Error1; 
+			TramaTcp =TramaTcp+1;
+	 		// Espero repuesta esclavsl
+			tini = Timer (); 
+			msecWait /= 1000.0;
+	while (Timer () - tini < msecWait) ProcessSystemEvents ();
+	Delay (msecWait); 
+	// Check the correct # of bytes received
+	
+	
+	  if (datalong = ClientTCPRead (g_hconversation, RTCPVec, 13 , 1000)< 0)//mb.bRcvd
+	{
+	 	goto Error1; }
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_3,0);
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_2,1);
+			}
+			}
+			
+Error1:
 			break;
 	}
 	return 0;
@@ -300,7 +407,7 @@ int CVICALLBACK Abrir2 (int panel, int control, int event,
 	{
 		case EVENT_COMMIT:
 			int valor; //es la salida del popup
-			 if (port_open==0) 
+			 if (port_open==0 && tcp_open==0) 
 			 {
 				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Puerto");
 				 return 0; 
@@ -310,6 +417,8 @@ int CVICALLBACK Abrir2 (int panel, int control, int event,
 			if (valor==1)  //Si valor es =1 quiere hacer el comando
 			{
 			//Consultar1T(); 
+				if (port_open ==1  && tcp_open==0)// Modbus Serial
+			{
 			FlushInQ (comport); 
 			FlushOutQ (comport); 
 			Funcion05A(1,0x1,comport, espera );  // Esclavo 2 bobina 0x4004
@@ -317,6 +426,41 @@ int CVICALLBACK Abrir2 (int panel, int control, int event,
 			SetCtrlVal(panelHandleChild3,VerDatos_LED_4,1);
 			//Consultar1T();
 			}
+			if (port_open ==0  && tcp_open==1)// Sale por TCP
+			{
+			double	tini, msecWait;// Variables de tiempo
+			int datalong=0;
+			 WTCPVec[0]= (TramaTcp>>8);//Byte alto la trama
+			 WTCPVec[1]= (TramaTcp>>8);// Byte baj la trama
+			 WTCPVec[2]= 0;
+			 WTCPVec[3]= 0;
+			 WTCPVec[4]= 0;
+			 WTCPVec[5]= 6;// Cantidad de Bytes
+			 WTCPVec[6]= 1;//Esclavo
+			 WTCPVec[7]= 5;//Funcion 0x05
+			 WTCPVec[8]= 0;//valor alto Coil 1
+			 WTCPVec[9]= 1;//valor bajo Coil 1
+			 WTCPVec[10]= 0;//valor  Abrir
+			 WTCPVec[11]= 0;//valor  
+			 if (ClientTCPWrite (g_hconversation, WTCPVec, 12, 1000) < 0)
+						 goto Error1; 
+			TramaTcp =TramaTcp+1;
+	 		// Espero repuesta esclavsl
+			tini = Timer (); 
+			msecWait /= 1000.0;
+	while (Timer () - tini < msecWait) ProcessSystemEvents ();
+	Delay (msecWait); 
+	// Check the correct # of bytes received
+	
+	
+	  if (datalong = ClientTCPRead (g_hconversation, RTCPVec, 13 , 1000)< 0)//mb.bRcvd
+	{
+	 	goto Error1; }
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_5,0);
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_4,1);
+			}
+			}
+Error1:
 			break;
 	}
 	return 0;
@@ -329,7 +473,7 @@ int CVICALLBACK Cerrar2 (int panel, int control, int event,
 	{
 		case EVENT_COMMIT:
 	int valor; //es la salida del popup
-			 if (port_open==0) 
+			 if (port_open==0 && tcp_open==0) 
 			 {
 				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Puerto");
 				 return 0; 
@@ -337,6 +481,8 @@ int CVICALLBACK Cerrar2 (int panel, int control, int event,
 			// if (TimerOn()==0) return 0;  // es para evitar que se superponga con la pregunta periodica
 			valor=ConfirmPopup ("Consulta de operación", "Realmente quiere cerrar Ventilador 2");
 			if (valor==1)  //Si valor es =1 quiere hacer el comando
+			{
+			if (port_open ==1  && tcp_open==0)// Modbus Serial
 			{
 			//Consultar1T(); 
 			FlushInQ (comport); 
@@ -346,6 +492,43 @@ int CVICALLBACK Cerrar2 (int panel, int control, int event,
 			SetCtrlVal(panelHandleChild3,VerDatos_LED_4,0);
 			//Consultar1T();
 			}
+			
+			if (port_open ==0  && tcp_open==1)
+			{
+			double	tini, msecWait;// Variables de tiempo
+			int datalong=0;
+			 WTCPVec[0]= (TramaTcp>>8);//Byte alto la trama
+			 WTCPVec[1]= (TramaTcp>>8);// Byte baj la trama
+			 WTCPVec[2]= 0;
+			 WTCPVec[3]= 0;
+			 WTCPVec[4]= 0;
+			 WTCPVec[5]= 6;// Cantidad de Bytes
+			 WTCPVec[6]= 1;//Esclavo
+			 WTCPVec[7]= 5;//Funcion 0x05
+			 WTCPVec[8]= 0;//valor alto Coil 1
+			 WTCPVec[9]= 1;//valor bajo Coil 1
+			 WTCPVec[10]= 0xFF;//valor  Cerrar
+			 WTCPVec[11]= 0;//valor  
+			 if (ClientTCPWrite (g_hconversation, WTCPVec, 12, 1000) < 0)
+						 goto Error1; 
+			TramaTcp =TramaTcp+1;
+	 		// Espero repuesta esclavsl
+			tini = Timer (); 
+			msecWait /= 1000.0;
+	while (Timer () - tini < msecWait) ProcessSystemEvents ();
+	Delay (msecWait); 
+	// Check the correct # of bytes received
+	
+	
+	  if (datalong = ClientTCPRead (g_hconversation, RTCPVec, 13 , 1000)< 0)//mb.bRcvd
+	{
+	 	goto Error1; }
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_5,1);
+			SetCtrlVal(panelHandleChild3,VerDatos_LED_4,0);
+			}
+			}
+			
+Error1:
 			break;
 	}
 	return 0;
@@ -369,6 +552,16 @@ void CVICALLBACK DatosM (int menuBar, int menuItem, void *callbackData,
 		SetCtrlVal (panelHandleChild3, VerDatos_LED , 0); 	
 		SetCtrlVal (panelHandleChild3, VerDatos_STRING_2 , "cerrado");	
 		}
+		
+		if (tcp_open ==1)
+			{
+            SetCtrlVal (panelHandleChild3, VerDatos_LED_6 , 1); 
+			 }
+
+		else 
+		{
+		SetCtrlVal (panelHandleChild3, VerDatos_LED_6 , 0); 	
+		}
 }
 
 int CVICALLBACK LeerT (int panel, int control, int event,
@@ -381,12 +574,13 @@ int CVICALLBACK LeerT (int panel, int control, int event,
 			int		i, bSent, bRcvd, n;
 			unsigned char	slave, buf[512];
 			double Ti,Te;
-			 if (port_open==0) 
+			 if (port_open==0 && tcp_open==0) 
 			 {
-				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Puerto");
+				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar enlace comunicaciones");
 				 return 0; 
 			 }
-	 
+	 		if (port_open ==1  && tcp_open==0)
+			{
 			FlushInQ (comport); 
 			slave=1; //direccion de esclavo
 			memAdr=0x00;// Direccion del Modulo IA
@@ -395,11 +589,12 @@ int CVICALLBACK LeerT (int panel, int control, int event,
 			if (comerr < 0) goto Error;
 	 		// Analizo la repuesta del esclavo  
 	  		ReturnMBAnswer (buf, &bRcvd);
-			Ti =(buf[13]<<8) +(buf[14]) ; // hay que dividir por 16
-			Te =(buf[11]<<8) +(buf[12]) ; // hay que dividir por 100
+			Ti =(buf[11]<<8) +(buf[12]) ; // hay que dividir por 16
+			Te =(buf[13]<<8) +(buf[14]) ; // hay que dividir por 100
             
-		    Ti=Ti/16.0; //Temperatura  exteriior DS18B20
-			Te=Te/100.0; //Temperatura interior  Max31865
+			Ti=Ti/100.0; //Temperatura interior  Max31865
+		    Te=Te/16.0; //Temperatura  exteriior DS18B20
+			
 			SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM , Ti);
 	 		SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM_2 , Te);
 Error:
@@ -415,6 +610,50 @@ Error:
 		MessagePopup ("Error Severo", buf);
 		}
 	}
+			}//fin comunicaciones Serial
+			
+	if (port_open ==0  && tcp_open==1)
+			{
+			double	tini, msecWait;// Variables de tiempo
+			int datalong=0;
+			 WTCPVec[0]= (TramaTcp>>8);//Byte alto la trama
+			 WTCPVec[1]= (TramaTcp>>8);// Byte baj la trama
+			 WTCPVec[2]= 0;
+			 WTCPVec[3]= 0;
+			 WTCPVec[4]= 0;
+			 WTCPVec[5]= 6;
+			 WTCPVec[6]= 1;//Esclavo
+			 WTCPVec[7]= 3;//Funcion
+			 WTCPVec[8]= 0;//valor alto direccion
+			 WTCPVec[9]= 4;//valor bajo direccion
+			 WTCPVec[10]= 0;//valor alto cantidad
+			 WTCPVec[11]= 2;//valor bajo cantidad
+			 if (ClientTCPWrite (g_hconversation, WTCPVec, 12, 1000) < 0)
+						 goto Error1; 
+			TramaTcp =TramaTcp+1;
+	 		// Espero repuesta esclavsl
+			tini = Timer (); 
+			msecWait /= 1000.0;
+	while (Timer () - tini < msecWait) ProcessSystemEvents ();
+	Delay (msecWait); 
+	// Check the correct # of bytes received
+	
+	
+	  if (datalong = ClientTCPRead (g_hconversation, RTCPVec, 13 , 1000)< 0)//mb.bRcvd
+	{
+	comerr = kRS_IOTimeOut;
+	goto Error1; }
+			}
+			Ti =(RTCPVec[9]<<8) +(RTCPVec[10]) ; // hay que dividir por 16
+			Te =(RTCPVec[11]<<8) +(RTCPVec[12]) ; // hay que dividir por 100
+            
+			Ti=Ti/100.0; //Temperatura interior  Max31865
+		    Te=Te/16.0; //Temperatura  exteriior DS18B20
+			
+			SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM , Ti);
+	 		SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM_2 , Te);
+	
+Error1:
 			break;
 	}
 	return 0;
@@ -432,11 +671,11 @@ int CVICALLBACK Disparo (int panel, int control, int event,
 	switch (event)
 	{
 		case EVENT_TIMER_TICK:
-			if (port_open==0) 
+			if (port_open==0 && tcp_open==0) 
 			 {
 				 SetCtrlAttribute (panelHandleChild3, VerDatos_TIMER,ATTR_ENABLED ,0); //Apagar timer  
 				SetCtrlAttribute (panelHandleChild3, VerDatos_COMMANDBUTTON_9,ATTR_CMD_BUTTON_COLOR ,VAL_RED);
-				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Puerto");
+				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar enlace de comunicaciones");
 				 return 0; 
 			 }
 			 Consultar1T();
@@ -517,13 +756,14 @@ void Consultar1T(void)  //Funciones para consultar con el Timer al equipo con Mo
 			int		i, bSent, bRcvd, n;
 			unsigned char	slave, buf[512];
 		 
-			 if (port_open==0) 
+			 if (port_open==0 && tcp_open==0) 
 			 {
-				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Puerto");
+				 MessagePopup (" Puerto de comunicaciones", "Falta seleccionar Enlace de comunicaciones ");
 				 return ; 
 			 }
-	 
-			FlushInQ (comport); 
+	 if (port_open==1 && tcp_open==0)
+	 		{
+		 	FlushInQ (comport); 
 			slave=1; //direccion de esclavo
 			memAdr=0x00;// Direccion del Modulo IA
 	        nRegs=0x08;// Leo los registroa IA,IB, IC y IT
@@ -531,11 +771,11 @@ void Consultar1T(void)  //Funciones para consultar con el Timer al equipo con Mo
 			if (comerr < 0) goto Error;
 	 		// Analizo la repuesta del esclavo  
 	  		ReturnMBAnswer (buf, &bRcvd);
-			Ti =(buf[13]<<8) +(buf[14]) ; // hay que dividir por 16
-			Te =(buf[11]<<8) +(buf[12]) ; // hay que dividir por 100
+			Ti =(buf[11]<<8) +(buf[12]) ; // hay que dividir por 16
+			Te =(buf[13]<<8) +(buf[14]) ; // hay que dividir por 100
             
-		    Ti=Ti/16.0; //Temperatura exterior DS18B29
-			Te=Te/100.0; //Temperatura interior Max31865
+		    Te=Te/16.0; //Temperatura exterior DS18B29
+			Ti=Ti/100.0; //Temperatura interior Max31865
 			SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM , Ti);
 	 		SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM_2 , Te);
 Error:
@@ -551,8 +791,52 @@ Error:
 		MessagePopup ("Error Severo", buf);
 		}
 	}
+			}
 			 
-	 
+	if (port_open==0 && tcp_open==1)
+	 		{
+			double	tini, msecWait;// Variables de tiempo
+			int datalong=0;
+			 WTCPVec[0]= (TramaTcp>>8);//Byte alto la trama
+			 WTCPVec[1]= (TramaTcp>>8);// Byte baj la trama
+			 WTCPVec[2]= 0;
+			 WTCPVec[3]= 0;
+			 WTCPVec[4]= 0;
+			 WTCPVec[5]= 6;
+			 WTCPVec[6]= 1;//Esclavo
+			 WTCPVec[7]= 3;//Funcion
+			 WTCPVec[8]= 0;//valor alto direccion
+			 WTCPVec[9]= 4;//valor bajo direccion
+			 WTCPVec[10]= 0;//valor alto cantidad
+			 WTCPVec[11]= 2;//valor bajo cantidad
+			 if (ClientTCPWrite (g_hconversation, WTCPVec, 12, 1000) < 0)
+						 goto Error1; 
+			TramaTcp =TramaTcp+1;
+	 		// Espero repuesta esclavsl
+			tini = Timer (); 
+			msecWait /= 1000.0;
+	while (Timer () - tini < msecWait) ProcessSystemEvents ();
+	Delay (msecWait); 
+	// Check the correct # of bytes received
+	
+	
+	  if (datalong = ClientTCPRead (g_hconversation, RTCPVec, 13 , 1000)< 0)//mb.bRcvd
+		{
+		comerr = kRS_IOTimeOut;
+		goto Error1; 
+		}
+			
+			Ti =(RTCPVec[9]<<8) +(RTCPVec[10]) ; // hay que dividir por 16
+			Te =(RTCPVec[11]<<8) +(RTCPVec[12]) ; // hay que dividir por 100
+            
+			Ti=Ti/100.0; //Temperatura interior  Max31865
+		    Te=Te/16.0; //Temperatura  exteriior DS18B20
+			
+			SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM , Ti);
+	 		SetCtrlVal(panelHandleChild3, VerDatos_NUMERICTHERM_2 , Te);	
+			}
+Error1:
+			return ;
 }
 
 int CVICALLBACK Arch (int panel, int control, int event,
@@ -629,6 +913,7 @@ int CVICALLBACK CrearArch (int panel, int control, int event,
 			 WriteLine (archivo1,"Temperature Interna(°c)        Temperatura Externa(°c)      Hora", 64);	  //Apenas creado el archivo se escribe una fila para identificar las 6 variables
 				 
 			 Barchivo=1; //Indico que quiero guardar los datos en un archivo
+			SetCtrlVal (panelHandleChild3, VerDatos_STRING ,ruta_archivo); 
 			break;
 	}
 	return 0;
@@ -781,4 +1066,178 @@ int CVICALLBACK CursorM (int panel, int control, int event,
            
         }
 	return 0;
+}
+
+int CVICALLBACK SalirTCP (int panel, int control, int event,
+						  void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+	{
+		case EVENT_COMMIT:
+		DiscardPanel (panelHandleChild5); 
+			break;
+	}
+	return 0;
+}
+
+int CVICALLBACK AbrirTCPP (int panel, int control, int event,
+						   void *callbackData, int eventData1, int eventData2)
+{
+	switch (event) //Es para conversor RS232 a TCP virtual
+	{
+		case EVENT_COMMIT:
+ 	int  portNum;
+    char tempBuf[256] = "192.168.0.139";
+	//char tempBuf[256] = "172.23.91.110";   
+	//char tempBuf[256] = "10.26.48.100";  
+//	char tempBuf[256] = "172.23.56.151";  
+    char portNumStr[32];
+	int boton=0;
+    
+    /* Prompt for the name of the server to connect to */
+    //PromptPopup ("Server Name?", "Escriba la IP del Conversor de Medios "
+    //             ".\n\n(Ejemplo xxx.xxx.xxx.xxx)",  tempBuf, 255);
+	
+	
+    /* Prompt for the port number on the server */
+    //PromptPopup ("Número de Puerto?","Escriba el número de puerto del Conversor de Medios "
+    //             "\n\n(example: 10001)",portNumStr, 31);
+    //portNum = atoi (portNumStr);
+	if (port_open==1) 
+			 {
+				 MessagePopup (" Puerto de comunicaciones", "Ya está conectado a un Puerto Serial");
+				 return 0; 
+			 }
+	portNum = 1502; 
+	
+	GetCtrlVal(panelHandleChild5, TCP1_RADIOBUTTON, &boton);
+    if (boton==1)
+	{
+		//SetCtrlVal (panelHandleChild5, TCP1_SERVER_IP_2, "");
+		GetCtrlVal(panelHandleChild5, TCP1_SERVER_IP_2, tempBuf);
+				
+	}
+	/* Attempt to connect to TCP server... */
+    SetWaitCursor (1);
+    if (ConnectToTCPServer (&g_hconversation, portNum, tempBuf, NULL, //(&g_hconversation, portNum, tempBuf, ClientTCPCB,
+                            NULL, 5000) < 0)
+        MessagePopup("TCP Client", "Falló la conxión al Dispositivo !");
+    else
+        {
+        SetWaitCursor (0);
+        g_connected = 1;
+        
+        /* We are successfully connected -- gather info */
+        SetCtrlVal (panelHandleChild5, TCP1_CONNECTED , 1);
+  		if (GetTCPHostAddr (tempBuf, 256) >= 0)
+	        SetCtrlVal (panelHandleChild5, TCP1_CLIENT_NAME, tempBuf);
+        tcpChk (GetTCPPeerAddr (g_hconversation, tempBuf, 256));
+        SetCtrlVal (panelHandleChild5, TCP1_SERVER_IP, tempBuf);
+        //tcpChk (GetTCPPeerName (g_hconversation, tempBuf, 256));
+        //SetCtrlVal (g_hmainPanel, MAINPNL_SERVER_NAME, tempBuf);
+        SetCtrlAttribute (panelHandleChild5, TCP1_COMMANDBUTTON_6, ATTR_DIMMED ,0);
+		SetCtrlAttribute (panelHandleChild5, TCP1_COMMANDBUTTON_5, ATTR_DIMMED ,1);
+        SetCtrlVal (panelHandleChild5, TCP1_LED, 1); 
+        }
+    
+Done:
+    /* Disconnect from the TCP server */
+   // if (g_connected)
+    //	DisconnectFromTCPServer (g_hconversation);
+
+    /* Free resources and return */
+  		tcp_open =1;		
+			
+			break;
+	}
+	return 0;
+}
+
+int CVICALLBACK CerrarTCPIP (int panel, int control, int event,
+							 void *callbackData, int eventData1, int eventData2)
+{
+	switch (event)
+	{
+		case EVENT_COMMIT:
+		SetCtrlAttribute (panelHandleChild5, TCP1_COMMANDBUTTON_6, ATTR_DIMMED ,1);
+		SetCtrlAttribute (panelHandleChild5, TCP1_COMMANDBUTTON_5, ATTR_DIMMED ,0);
+		port_open = 0;  /* Cierro Puerto */  
+		DisconnectFromTCPServer (g_hconversation); 
+		SetCtrlVal (panelHandleChild5, TCP1_LED, 0);
+		SetCtrlVal (panelHandleChild5, TCP1_CONNECTED, 0); 
+		tcp_open =0;
+			break;
+	}
+	return 0;
+}
+
+void CVICALLBACK AbrirTCP (int menuBar, int menuItem, void *callbackData,
+						   int panel)
+{
+	if ((panelHandleChild5 = LoadPanel (0, "RTUM.uir", TCP1)) < 0)
+		return  ;
+	
+		InstallPopup (panelHandleChild5);
+}
+
+
+
+
+
+/*---------------------------------------------------------------------------*/
+/* Report TCP Errors if any                         						 */
+/*---------------------------------------------------------------------------*/
+static void ReportTCPError(void)
+{
+	if (g_TCPError < 0)
+		{
+		char	messageBuffer[1024];
+		sprintf(messageBuffer, 
+			"TCP library error message: %s\nSystem error message: %s", 
+			GetTCPErrorString (g_TCPError), GetTCPSystemErrorString());
+		MessagePopup ("Error", messageBuffer);
+		g_TCPError = 0;
+		}
+}
+
+
+/*---------------------------------------------------------------------------*/
+/* This is the TCP client's TCP callback.  This function will receive event  */
+/* notification, similar to a UI callback, whenever a TCP event occurs.      */
+/* We'll respond to the DATAREADY event and read in the available data from  */
+/* the server and display it.  We'll also respond to DISCONNECT events, and  */
+/* tell the user when the server disconnects us.                             */
+/*---------------------------------------------------------------------------*/
+int CVICALLBACK ClientTCPCB (unsigned handle, int event, int error,
+                             void *callbackData)
+{
+    char receiveBuf[256] = {0};
+    ssize_t dataSize         = sizeof (receiveBuf) - 1;
+
+    switch (event)
+        {
+        
+	 case TCP_DATAREADY:
+             //if ((dataSize = ClientTCPRead (g_hconversation, receiveBuf,
+             //                               dataSize, 1000))
+              //   < 0)
+             //   {
+              //   MessagePopup ("TCP Client", "Error en la recepción de datos!"); 
+		 		
+             //    }
+            // else
+             //	{
+            	//receiveBuf[dataSize] = '\0';
+                
+             //    }
+             break;
+		  
+        case TCP_DISCONNECT:
+            MessagePopup ("TCP Client", "Server cerró la conexión!");
+            SetCtrlVal (panelHandleChild5, TCP1_CONNECTED, 0);
+            g_connected = 0;
+            
+            break;
+    }
+    return 0;
 }
